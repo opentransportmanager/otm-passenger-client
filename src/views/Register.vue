@@ -2,8 +2,8 @@
   <v-container fluid fill-height>
     <v-layout justify-center align-center>
       <div>
-        <h1>Login</h1>
-        <v-form @submit.prevent="login">
+        <h1>Register</h1>
+        <v-form @submit.prevent="register">
           <v-text-field
             type="email"
             label="email"
@@ -16,7 +16,7 @@
             v-model="password"
             required
           ></v-text-field>
-          <v-btn type="submit">Login</v-btn>
+          <v-btn type="submit">Register</v-btn>
         </v-form>
       </div>
     </v-layout>
@@ -33,14 +33,17 @@ export default {
   },
 
   methods: {
-    login() {
+    register() {
       this.$store
-        .dispatch("login", {
+        .dispatch("register", {
           email: this.email,
           password: this.password
         })
         .then(() => {
           this.$router.push({ name: "Home" });
+        })
+        .catch(err => {
+          console.log(err);
         });
     }
   }
