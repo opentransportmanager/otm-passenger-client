@@ -1,8 +1,13 @@
 <template>
-  <v-container fluid fill-height>
-    <v-layout justify-center align-center>
-      <div>
-        <h1>Login</h1>
+  <v-dialog max-width="600px" v-model="dialog">
+    <template v-slot:activator="{ on }">
+      <v-btn class="success" v-on="on">Register</v-btn>
+    </template>
+    <v-card>
+      <v-card-title>
+        <h2>Register</h2>
+      </v-card-title>
+      <v-card-text>
         <v-form @submit.prevent="login">
           <v-text-field
             type="email"
@@ -16,31 +21,35 @@
             v-model="password"
             required
           ></v-text-field>
-          <v-btn type="submit">Login</v-btn>
+          <v-btn type="submit" :loading="loading">Register</v-btn>
         </v-form>
-      </div>
-    </v-layout>
-  </v-container>
+      </v-card-text>
+    </v-card>
+  </v-dialog>
 </template>
 
 <script>
 export default {
+  name: "RegisterForm",
   data() {
     return {
       email: "",
-      password: ""
+      password: "",
+      dialog: false,
+      loading: false
     };
   },
 
   methods: {
-    login() {
+    register() {
       this.$store
-        .dispatch("login", {
+        .dispatch("register", {
           email: this.email,
           password: this.password
         })
-        .then(() => {
-          this.$router.push({ name: "Home" });
+        .finally(() => {
+          this.loading = false;
+          this.dialog = false;
         });
     }
   }

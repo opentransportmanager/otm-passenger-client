@@ -7,12 +7,8 @@
 
       <v-spacer></v-spacer>
 
-      <v-btn router :to="'/login'" v-if="!isLogged">
-        <span>Login</span>
-      </v-btn>
-      <v-btn router :to="'/register'" v-if="!isLogged">
-        <span>Register</span>
-      </v-btn>
+      <LoginForm v-if="!isLogged" />
+      <RegisterForm v-if="!isLogged" />
       <v-btn v-if="isLogged" @click="logout">
         <span>Logout</span>
         <v-icon right>mdi-exit-to-app</v-icon>
@@ -22,9 +18,12 @@
 </template>
 
 <script>
+import LoginForm from "./LoginForm";
+import RegisterForm from "./RegisterForm";
 import { mapGetters } from "vuex";
 export default {
   name: "Navbar",
+  components: { RegisterForm, LoginForm },
   computed: {
     ...mapGetters(["isLogged"])
   },
