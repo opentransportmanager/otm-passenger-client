@@ -2,11 +2,37 @@
   <nav>
     <v-app-bar app color="#CBF3F0">
       <v-toolbar-title class="text-uppercase grey--text">
-        <span class="d-none d-md-flex">OpenTransportManager</span>
-        <span class="d-none d-sm-flex d-md-none mr-6">OTM</span>
+        <router-link
+          to="/"
+          tag="span"
+          class="d-none d-md-flex"
+          style="cursor: pointer"
+        >
+          OpenTransportManager
+        </router-link>
+        <router-link
+          to="/"
+          tag="span"
+          class="d-none d-sm-flex d-md-none mr-6"
+          style="cursor: pointer"
+        >
+          OTM
+        </router-link>
       </v-toolbar-title>
 
       <search-input style="max-width: 300px" />
+
+      <v-btn
+        v-for="link in links"
+        :key="link.text"
+        v-if="(!link.reqLog && !isLogged) || (link.reqLog && isLogged)"
+        :to="link.route"
+        text
+        class="ma-2 hidden-md-and-down"
+      >
+        {{ link.text }}
+      </v-btn>
+
       <v-spacer></v-spacer>
 
       <LoginForm v-if="!isLogged" />
@@ -15,7 +41,41 @@
         <span>Logout</span>
         <v-icon right>mdi-exit-to-app</v-icon>
       </v-btn>
+      <v-app-bar-nav-icon
+        class="hidden-lg-and-up"
+        @click="sideNav = !sideNav"
+      ></v-app-bar-nav-icon>
     </v-app-bar>
+
+    <v-navigation-drawer
+      app
+      temporary
+      v-model="sideNav"
+      right
+      color="orange lighten-1"
+    >
+      <v-btn block text class="justify center" @click="sideNav = !sideNav">
+        <v-icon right>mdi-redo</v-icon>
+      </v-btn>
+      <v-list>
+        <v-list-item
+          v-for="link in links"
+          :key="link.text"
+          v-if="(!link.reqLog && !isLogged) || (link.reqLog && isLogged)"
+          router
+          :to="link.route"
+        >
+          <v-list-item-action>
+            <v-icon class="white--text">{{ link.icon }}</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title class="white--text">{{
+              link.text
+            }}</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
+    </v-navigation-drawer>
 
     <v-footer
       height="40px"
@@ -47,7 +107,13 @@ export default {
   name: "Navbar",
   data() {
     return {
-      drawer: true
+      sideNav: false,
+      links: [
+        { icon: "", text: "Link1", route: "/", reqLog: false },
+        { icon: "", text: "Link2", route: "/", reqLog: false },
+        { icon: "", text: "Link3", route: "/", reqLog: true },
+        { icon: "", text: "Link4", route: "/", reqLog: false }
+      ]
     };
   },
   components: { SearchInput, RegisterForm, LoginForm },
