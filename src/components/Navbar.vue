@@ -38,7 +38,7 @@
       <LoginForm v-if="!isLogged" />
       <RegisterForm v-if="!isLogged" />
       <v-btn v-if="isLogged" @click="logout">
-        <span>Logout</span>
+        <span class="d-none d-sm-flex">Logout</span>
         <v-icon right>mdi-exit-to-app</v-icon>
       </v-btn>
       <v-app-bar-nav-icon
