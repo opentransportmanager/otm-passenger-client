@@ -1,7 +1,7 @@
 <template>
   <v-dialog max-width="400px" v-model="dialog">
     <template v-slot:activator="{ on }">
-      <v-btn color="#FF9F1C" v-on="on">
+      <v-btn color="#FF9F1C" v-on="on" @click="clearErrors">
         <span class="d-none d-sm-flex ">Register</span>
         <v-icon class="d-sm-none">mdi-account-plus-outline</v-icon>
       </v-btn>
@@ -11,11 +11,12 @@
         <h2>Register</h2>
       </v-card-title>
       <v-card-text>
-        <v-alert v-if="serverError" type="error" class="mt-4 justify-center">
-          {{ serverError }}
+        <v-alert class="mt-4" v-if="serverErrors" type="error">
+          <div v-for="(value, key) in serverErrors" :key="key">
+            {{ value[0] }}
+          </div>
         </v-alert>
-
-        <v-form @submit.prevent="register">
+        <v-form v-model="valid" @submit.prevent="register">
           <v-text-field
             type="string"
             label="Name"
@@ -73,7 +74,8 @@ export default {
       dialog: false,
       loading: false,
       showPassword: false,
-      serverError: "",
+      serverErrors: "",
+      valid: false,
       emailRules: [
         v => !!v || "E-mail is required",
         v => /.+@.+\..+/.test(v) || "This is not correct e-mail"
@@ -89,29 +91,28 @@ export default {
       ]
     };
   },
-
   methods: {
     clearErrors() {
-      this.serverError = "";
+      this.serverErrors = "";
     },
     register() {
       if (this.valid) {
+        this.loading = true;
         this.$store
           .dispatch("register", {
+            name: this.name,
             email: this.email,
             password: this.password
           })
           .then(() => {
             this.dialog = false;
-            this.serverError = "";
+            this.serverErrors = "";
           })
           .catch(err => {
-            console.log(err);
-            this.serverError = "to do";
+            this.serverErrors = Object.values(err.response.data.errors);
           })
           .finally(() => {
             this.loading = false;
-            this.dialog = false;
           });
       }
     }

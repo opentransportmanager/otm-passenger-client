@@ -15,6 +15,11 @@
         <v-alert v-if="serverError" type="error" class="mt-4 justify-center">
           {{ serverError }}
         </v-alert>
+        <v-alert class="mt-4" v-if="serverErrors" type="error">
+          <div v-for="(value, key) in serverErrors" :key="key">
+            {{ value[0] }}
+          </div>
+        </v-alert>
 
         <v-form v-model="valid" @submit.prevent="login">
           <v-text-field
@@ -53,6 +58,7 @@ export default {
       loading: false,
       showPassword: false,
       serverError: "",
+      serverErrors: "",
       emailRules: [
         v => !!v || "E-mail is required",
         v => /.+@.+\..+/.test(v) || "This is not correct e-mail"
@@ -76,8 +82,7 @@ export default {
             this.serverError = "";
           })
           .catch(err => {
-            console.log(err);
-            this.serverError = "to do";
+            this.serverError = err.response.data.toString();
           })
           .finally(() => {
             this.loading = false;
