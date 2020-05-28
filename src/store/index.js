@@ -5,7 +5,6 @@ import axios from "axios";
 Vue.use(Vuex);
 
 axios.defaults.baseURL = "/login";
-axios.defaults.withCredentials = true;
 
 export default new Vuex.Store({
   state: {
