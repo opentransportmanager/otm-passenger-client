@@ -6,6 +6,7 @@ import vuetify from "./plugins/vuetify";
 import axios from "axios";
 
 Vue.config.productionTip = false;
+axios.defaults.baseURL = "/login";
 
 new Vue({
   router,
