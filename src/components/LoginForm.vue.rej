@@ -1,0 +1,6 @@
+diff a/src/components/LoginForm.vue b/src/components/LoginForm.vue	(rejected hunks)
+@@ -19 +19,3 @@
+-          <div v-for="(value,key) in serverErrors" :key="key">{{value[0]}}</div>
++          <div v-for="(value, key) in serverErrors" :key="key">
++            {{ value[0] }}
++          </div>
