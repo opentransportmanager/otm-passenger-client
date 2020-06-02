@@ -79,7 +79,7 @@
 
     <v-footer
       height="40px"
-      :class="['', { 'd-none': $vuetify.breakpoint.smAndDown }]"
+      :class="[{ 'd-none': $vuetify.breakpoint.smAndDown }]"
       absolute
       padless
     >
