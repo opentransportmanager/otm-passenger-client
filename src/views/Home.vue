@@ -24,12 +24,7 @@
         </v-container>
       </v-card>
 
-      <div
-        :class="[
-          'col-11 map',
-          { 'col-12 order-1': $vuetify.breakpoint.mdAndDown }
-        ]"
-      >
+      <div class="col-12 col-lg-11 map">
         <bus-stop-info />
       </div>
     </v-row>
