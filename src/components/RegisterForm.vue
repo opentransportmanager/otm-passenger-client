@@ -109,7 +109,7 @@ export default {
             this.serverErrors = "";
           })
           .catch(err => {
-            this.serverErrors = Object.values(err.response.data.errors);
+            this.serverErrors = Object.values(err.response.data);
           })
           .finally(() => {
             this.loading = false;

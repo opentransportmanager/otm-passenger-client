@@ -6,14 +6,15 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    user: null
+    user: null,
+    token: null
   },
 
   mutations: {
     setUserData(state, userData) {
       state.user = userData;
+      state.token = userData.token;
       localStorage.setItem("user", JSON.stringify(userData));
-      axios.defaults.headers.common.Authorization = `Bearer ${userData.token}`;
     },
 
     clearUserData() {
@@ -41,6 +42,7 @@ export default new Vuex.Store({
   },
 
   getters: {
-    isLogged: state => !!state.user
+    isLogged: state => !!state.user,
+    token: state => state.token
   }
 });

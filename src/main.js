@@ -6,7 +6,7 @@ import vuetify from "./plugins/vuetify";
 import axios from "axios";
 
 Vue.config.productionTip = false;
-axios.defaults.baseURL = "/login";
+axios.defaults.baseURL = "/api";
 
 new Vue({
   router,
@@ -20,6 +20,18 @@ new Vue({
     }
     axios.interceptors.response.use(
       response => response,
+      error => {
+        return Promise.reject(error);
+      }
+    );
+    axios.interceptors.request.use(
+      config => {
+        const token = store.getters.token;
+        if (token) {
+          config.headers.common["Authorization"] = `Bearer ${token}`;
+        }
+        return config;
+      },
       error => {
         return Promise.reject(error);
       }
