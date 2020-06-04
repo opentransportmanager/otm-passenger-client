@@ -4,6 +4,11 @@ import router from "./router";
 import store from "./store";
 import vuetify from "./plugins/vuetify";
 import axios from "axios";
+import { ValidationProvider, setInteractionMode } from "vee-validate";
+import "./components/validationRules";
+
+Vue.component("ValidationProvider", ValidationProvider);
+setInteractionMode("eager");
 
 Vue.config.productionTip = false;
 axios.defaults.baseURL = "/api";

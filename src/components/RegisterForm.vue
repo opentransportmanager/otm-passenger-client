@@ -17,42 +17,67 @@
           </div>
         </v-alert>
         <v-form v-model="valid" @submit.prevent="register">
-          <v-text-field
-            type="string"
-            label="Name"
-            v-model="name"
-            prepend-icon="mdi-account"
-            :rules="nameRules"
-            required
-          ></v-text-field>
-          <v-text-field
-            type="email"
-            label="Email"
-            v-model="email"
-            prepend-icon="mdi-account-circle"
-            :rules="emailRules"
-            required
-          ></v-text-field>
-          <v-text-field
-            :type="showPassword ? 'text' : 'password'"
-            label="password"
-            v-model="password"
-            prepend-icon="mdi-lock"
-            :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
-            @click:append="showPassword = !showPassword"
-            :rules="passwordRules"
-            required
-          ></v-text-field>
-          <v-text-field
-            :type="showPassword ? 'text' : 'password'"
-            label="re_password"
-            v-model="re_password"
-            prepend-icon="mdi-lock"
-            :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
-            @click:append="showPassword = !showPassword"
-            :rules="passwordRules"
-            required
-          ></v-text-field>
+          <validation-provider
+            rules="required|min:3|max:20"
+            name="Name"
+            v-slot="{ errors }"
+          >
+            <v-text-field
+              type="string"
+              label="Name"
+              v-model="name"
+              prepend-icon="mdi-account"
+              :error-messages="errors"
+              required
+            ></v-text-field>
+          </validation-provider>
+          <validation-provider
+            rules="email|required"
+            name="Email"
+            v-slot="{ errors }"
+          >
+            <v-text-field
+              type="email"
+              label="Email"
+              v-model="email"
+              prepend-icon="mdi-account-circle"
+              :error-messages="errors"
+              required
+            ></v-text-field>
+          </validation-provider>
+          <validation-provider
+            vid="confirmation"
+            rules="min:8|required"
+            name="Password"
+            v-slot="{ errors }"
+          >
+            <v-text-field
+              :type="showPassword ? 'text' : 'password'"
+              label="password"
+              v-model="password"
+              prepend-icon="mdi-lock"
+              :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+              @click:append="showPassword = !showPassword"
+              :error-messages="errors"
+              required
+            ></v-text-field>
+          </validation-provider>
+          <validation-provider
+            rules="confirmPassword:confirmation"
+            name="Repated password"
+            v-slot="{ errors }"
+          >
+            <v-text-field
+              :type="showPassword ? 'text' : 'password'"
+              label="re_password"
+              v-model="re_password"
+              prepend-icon="mdi-lock"
+              :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+              @click:append="showPassword = !showPassword"
+              :error-messages="errors"
+              required
+            ></v-text-field>
+          </validation-provider>
           <v-btn color="#FF9F1C" type="submit" :loading="loading"
             >Register</v-btn
           >
@@ -75,20 +100,7 @@ export default {
       loading: false,
       showPassword: false,
       serverErrors: "",
-      valid: false,
-      emailRules: [
-        v => !!v || "E-mail is required",
-        v => /.+@.+\..+/.test(v) || "This is not correct e-mail"
-      ],
-      passwordRules: [
-        v => !!v || "Password is required",
-        v => v.length > 8 || "Password need to have at least 8 letters",
-        v => this.password === v || "Passwords need to be the same"
-      ],
-      nameRules: [
-        v => v.length > 3 || "Name is to short",
-        v => v.length < 20 || "Name is to long"
-      ]
+      valid: false
     };
   },
   methods: {

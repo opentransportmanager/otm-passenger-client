@@ -6,7 +6,6 @@
         <v-icon small class="d-sm-none">mdi-login</v-icon>
       </v-btn>
     </template>
-
     <v-card color="#FFBF69">
       <v-card-title class="justify-center">
         <h2>Login</h2>
@@ -15,25 +14,37 @@
         <v-alert v-if="serverError" type="error" class="mt-4 justify-center">
           {{ serverError }}
         </v-alert>
-
         <v-form v-model="valid" @submit.prevent="login">
-          <v-text-field
-            type="email"
-            label="E-mail"
-            v-model="email"
-            prepend-icon="mdi-account-circle"
-            :rules="emailRules"
-            required
-          ></v-text-field>
-          <v-text-field
-            :type="showPassword ? 'text' : 'password'"
-            label="Password"
-            v-model="password"
-            prepend-icon="mdi-lock"
-            :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
-            @click:append="showPassword = !showPassword"
-            required
-          ></v-text-field>
+          <validation-provider
+            rules="email|required"
+            name="Email"
+            v-slot="{ errors }"
+          >
+            <v-text-field
+              type="email"
+              label="E-mail"
+              v-model="email"
+              prepend-icon="mdi-account-circle"
+              :error-messages="errors"
+              required
+            ></v-text-field>
+          </validation-provider>
+          <validation-provider
+            rules="required"
+            name="Password"
+            v-slot="{ errors }"
+          >
+            <v-text-field
+              :type="showPassword ? 'text' : 'password'"
+              label="Password"
+              v-model="password"
+              prepend-icon="mdi-lock"
+              :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+              @click:append="showPassword = !showPassword"
+              :error-messages="errors"
+              required
+            ></v-text-field>
+          </validation-provider>
           <v-btn color="#FF9F1C" type="submit" :loading="loading">Login</v-btn>
         </v-form>
       </v-card-text>
@@ -52,11 +63,7 @@ export default {
       dialog: false,
       loading: false,
       showPassword: false,
-      serverError: "",
-      emailRules: [
-        v => !!v || "E-mail is required",
-        v => /.+@.+\..+/.test(v) || "This is not correct e-mail"
-      ]
+      serverError: ""
     };
   },
   methods: {
