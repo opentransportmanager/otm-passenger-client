@@ -33,7 +33,6 @@
 
 <script>
 import BusStopInfo from "../components/BusStopInfo";
-// @ is an alias to /src
 export default {
   name: "Home",
   components: { BusStopInfo },
@@ -56,14 +55,8 @@ export default {
         { number: 34, check: false }
       ]
     };
-  },
-  methods: {}
+  }
 };
 </script>
 
-<style>
-.map {
-  background-color: #cbf7bf;
-  min-height: 80%;
-}
-</style>
+<style lang="scss" src="../styles/homeStyle.scss"></style>

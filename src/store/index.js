@@ -5,20 +5,18 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    user: null,
-    token: null
+    user: null
   },
 
   mutations: {
     setUserData(state, userData) {
       state.user = userData;
-      state.token = userData.token;
       localStorage.setItem("user", JSON.stringify(userData));
     },
 
-    clearUserData() {
+    clearUserData(state) {
       localStorage.removeItem("user");
-      location.reload();
+      state.user = null;
     }
   },
 
@@ -38,6 +36,11 @@ export default new Vuex.Store({
 
   getters: {
     isLogged: state => !!state.user,
-    token: state => state.token
+    token(state) {
+      if (state.user) {
+        return state.user.token;
+      }
+      return false;
+    }
   }
 });

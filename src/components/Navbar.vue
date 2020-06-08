@@ -60,8 +60,8 @@
       <v-list>
         <v-list-item
           v-for="link in links"
-          :key="link.text"
           v-if="(!link.reqLog && !isLogged) || (link.reqLog && isLogged)"
+          :key="link.text"
           router
           :to="link.route"
         >
@@ -103,7 +103,7 @@ import LoginForm from "./LoginForm";
 import RegisterForm from "./RegisterForm";
 import { mapGetters } from "vuex";
 import SearchInput from "./SearchInput";
-// import { logout } from "../services/authService";
+
 export default {
   name: "Navbar",
   data() {
@@ -111,7 +111,7 @@ export default {
       sideNav: false,
       links: [
         { icon: "", text: "Link1", route: "/", reqLog: false },
-        { icon: "", text: "Link2", route: "/", reqLog: false },
+        { icon: "", text: "About", route: "/about", reqLog: false },
         { icon: "", text: "Link3", route: "/", reqLog: true },
         { icon: "", text: "Link4", route: "/", reqLog: false }
       ]
