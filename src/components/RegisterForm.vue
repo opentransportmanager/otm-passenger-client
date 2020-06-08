@@ -88,6 +88,7 @@
 </template>
 
 <script>
+import { register } from "../services/authService";
 export default {
   name: "RegisterForm",
   data() {
@@ -110,12 +111,7 @@ export default {
     register() {
       if (this.valid) {
         this.loading = true;
-        this.$store
-          .dispatch("register", {
-            name: this.name,
-            email: this.email,
-            password: this.password
-          })
+        register(this.name, this.email, this.password)
           .then(() => {
             this.dialog = false;
             this.serverErrors = "";
