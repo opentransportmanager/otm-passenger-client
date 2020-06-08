@@ -53,7 +53,6 @@
 </template>
 
 <script>
-import { login } from "../services/authService";
 export default {
   name: "LoginForm",
   data() {
@@ -74,7 +73,8 @@ export default {
     login() {
       if (this.valid) {
         this.loading = true;
-        login(this.email, this.password)
+        this.$authService
+          .login(this.email, this.password)
           .then(() => {
             this.dialog = false;
             this.serverError = "";

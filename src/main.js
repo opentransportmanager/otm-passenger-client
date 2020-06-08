@@ -6,6 +6,9 @@ import vuetify from "./plugins/vuetify";
 import axios from "axios";
 import { ValidationProvider, setInteractionMode } from "vee-validate";
 import "./components/validationRules";
+import authService from "./services/authService";
+
+Vue.prototype.$authService = authService;
 
 Vue.component("ValidationProvider", ValidationProvider);
 setInteractionMode("eager");

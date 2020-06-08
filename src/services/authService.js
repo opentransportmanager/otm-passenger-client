@@ -23,3 +23,13 @@ export function register(name, email, password) {
       store.dispatch("register", data);
     });
 }
+
+export function logout() {
+  store.dispatch("logout");
+}
+
+export default {
+  login,
+  logout,
+  register
+};

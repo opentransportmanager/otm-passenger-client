@@ -103,6 +103,7 @@ import LoginForm from "./LoginForm";
 import RegisterForm from "./RegisterForm";
 import { mapGetters } from "vuex";
 import SearchInput from "./SearchInput";
+// import { logout } from "../services/authService";
 export default {
   name: "Navbar",
   data() {
@@ -122,7 +123,7 @@ export default {
   },
   methods: {
     logout() {
-      this.$store.dispatch("logout");
+      this.$authService.logout();
     }
   }
 };
