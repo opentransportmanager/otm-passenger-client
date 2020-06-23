@@ -41,6 +41,12 @@
           :station-id="station.id"
           :name-of-station="station.name"
         ></map-marker>
+        <map-info-window
+          v-if="position.longitude != NaN"
+          :lat="position.latitude"
+          :lng="position.longitude"
+          >Your location</map-info-window
+        >
       </div>
     </v-row>
     <v-btn
@@ -60,12 +66,13 @@
 import BusStopInfo from "../components/BusStopInfo";
 import MapMarker from "../components/MapMarker";
 import mapService from "../services/mapService";
+import MapInfoWindow from "../components/MapInfoWindow";
 
 import { bus } from "../main.js";
 
 export default {
   name: "Home",
-  components: { MapMarker, BusStopInfo },
+  components: { MapInfoWindow, MapMarker, BusStopInfo },
 
   data() {
     return {
@@ -76,7 +83,9 @@ export default {
       stationName: null,
       stationId: null,
       buslines: null,
-      show: false
+      show: false,
+
+      position: { longitude: NaN, latitude: NaN }
     };
   },
   mounted() {
@@ -88,8 +97,21 @@ export default {
     mapService.getBuslines().then(response => {
       this.buslines = response.data;
     });
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        this.getPositionSuccess,
+        this.getPositionError
+      );
+    }
   },
+
   methods: {
+    getPositionSuccess(pos) {
+      this.position = pos.coords;
+    },
+    getPositionError(err) {
+      console.warn(`ERROR(${err.code}): ${err.message}`);
+    },
     getMap(callback) {
       let vm = this;
       function checkForMap() {
