@@ -7,43 +7,62 @@
         hide-overlay
         transition="dialog-bottom-transition"
       >
-        <template v-slot:activator="{ on }">
-          <v-btn color="#FFBF69" dark v-on="on">
-            <v-icon>mdi-bus-stop-covered</v-icon>
-          </v-btn>
-        </template>
-        <v-card height="100%">
+        <v-card>
           <v-toolbar dark color="#FFBF69">
-            <v-btn icon dark @click="busStopDialog = false">
+            <v-btn
+              icon
+              dark
+              @click="(busStopDialog = false), $emit('closeDialog')"
+            >
               <v-icon>mdi-close</v-icon>
             </v-btn>
             <v-toolbar-title>Bus stop info</v-toolbar-title>
             <v-spacer></v-spacer>
           </v-toolbar>
 
-          <v-card height="100%">
-            <v-card-title class="justify-center">
-              <strong>Timetable</strong>
-            </v-card-title>
-            <v-tabs
-              v-model="lineNumbers"
-              background-color="transparent"
-              color="#FFBF69"
-              grow
+          <v-card-title class="justify-center">
+            {{ stationName }}
+          </v-card-title>
+          <v-tabs
+            centered
+            center-active
+            show-arrows
+            v-model="lineNumbers"
+            background-color="transparent"
+            color="#FFBF69"
+          >
+            <v-tab
+              style="min-width: 5vh; max-width: 8vh"
+              v-for="busline in buslines"
+              :key="busline.id"
+              @click.native="getPathsForBusline(busline.id)"
             >
-              <v-tab v-for="line in lines" :key="line">
-                {{ line }}
-              </v-tab>
-            </v-tabs>
+              {{ busline.busline_number }}
+            </v-tab>
 
             <v-tabs-items v-model="lineNumbers">
-              <v-tab-item v-for="line in lines" :key="line">
-                <v-card flat>
-                  <v-card-text>{{ text }}</v-card-text>
-                </v-card>
+              <v-tab-item v-for="busline in buslines" :key="busline.id">
+                <v-container>
+                  <v-layout class="row wrap">
+                    <v-flex
+                      class="xs4 sm3 md1 text-center"
+                      v-for="departure in departures[busline.id]"
+                      :key="departure.id"
+                    >
+                      <span class="subtitle-1 font-weight-bold">
+                        {{ departure.departure_time }}
+                      </span>
+                      <br />
+                      <span class="caption">
+                        {{ busline.id }}
+                        {{ departure.group_id }}
+                      </span>
+                    </v-flex>
+                  </v-layout>
+                </v-container>
               </v-tab-item>
             </v-tabs-items>
-          </v-card>
+          </v-tabs>
         </v-card>
       </v-dialog>
     </v-row>
@@ -51,17 +70,39 @@
 </template>
 
 <script>
+import mapService from "../services/mapService";
 export default {
   components: {},
   name: "Map",
+  props: {
+    stationId: { required: false },
+    stationName: { required: false }
+  },
   data() {
     return {
-      busStopDialog: false,
+      busStopDialog: true,
       lineNumbers: null,
-      lines: ["1", "2", "24", "12"],
-      text:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+      buslines: null,
+      departures: []
     };
+  },
+  mounted() {
+    mapService.getBuslinesForStation(this.stationId).then(response => {
+      this.buslines = response;
+      this.getPathsForBusline(this.buslines[0].id);
+    });
+  },
+  methods: {
+    getPathsForBusline(buslineId) {
+      if (this.departures[buslineId] === undefined) {
+        mapService
+          .getDeparturesForBusline(this.stationId, buslineId)
+          .then(response => {
+            this.departures[buslineId] = response;
+            this.$forceUpdate();
+          });
+      }
+    }
   }
 };
 </script>

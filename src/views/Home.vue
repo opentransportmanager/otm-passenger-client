@@ -2,17 +2,25 @@
 <template>
   <v-container fluid fill-height class="pa-0">
     <v-row class="fill-height" no-gutters>
+      <bus-stop-info
+        v-if="dialog"
+        @closeDialog="dialog = false"
+        :station-name="stationName"
+        :station-id="stationId"
+      />
       <v-card
+        style="z-index: 3; position: absolute"
+        v-if="show"
         :class="[
-          'col-1 pa-0 pb-2 elevation-7',
-          { 'col-12 order-2': $vuetify.breakpoint.mdAndDown }
+          'col-2 pa-0 pb-2 elevation-7',
+          { 'col-8 order-2': $vuetify.breakpoint.mdAndDown }
         ]"
       >
         <v-container>
           <v-row no-gutters>
             <v-btn
               rounded
-              small
+              x-small
               v-for="busline in buslines"
               :key="busline.number"
               @click="busline.check = !busline.check"
@@ -24,37 +32,82 @@
         </v-container>
       </v-card>
 
-      <div class="col-12 col-lg-11 map">
-        <bus-stop-info />
+      <div class="col-12 map" ref="map">
+        <map-marker
+          v-for="station in stations"
+          :key="station.id"
+          :lat="station.position.lat"
+          :lng="station.position.lng"
+          :station-id="station.id"
+          :name-of-station="station.name"
+        ></map-marker>
       </div>
     </v-row>
+    <v-btn
+      class=""
+      top
+      right
+      absolute
+      @click="show = !show"
+      style="z-index: 3"
+      icon
+      ><v-icon x-large color="dark">mdi-bus-marker</v-icon>
+    </v-btn>
   </v-container>
 </template>
 
 <script>
 import BusStopInfo from "../components/BusStopInfo";
+import MapMarker from "../components/MapMarker";
+import mapService from "../services/mapService";
+
+import { bus } from "../main.js";
+
 export default {
   name: "Home",
-  components: { BusStopInfo },
+  components: { MapMarker, BusStopInfo },
+
   data() {
     return {
       selected: [],
-      buslines: [
-        { number: 1, check: false },
-        { number: 2, check: false },
-        { number: 3, check: false },
-        { number: 4, check: false },
-        { number: 5, check: false },
-        { number: 6, check: false },
-        { number: 7, check: false },
-        { number: 8, check: false },
-        { number: 9, check: false },
-        { number: 20, check: false },
-        { number: 24, check: false },
-        { number: 55, check: false },
-        { number: 34, check: false }
-      ]
+      map: null,
+      dialog: false,
+      stations: [],
+      stationName: null,
+      stationId: null,
+      buslines: null,
+      show: false
     };
+  },
+  mounted() {
+    this.map = new window.google.maps.Map(this.$refs["map"], {
+      center: { lat: 51.202709, lng: 16.15371 },
+      zoom: 14,
+      disableDefaultUI: true
+    });
+    mapService.getBuslines().then(response => {
+      this.buslines = response.data;
+    });
+  },
+  methods: {
+    getMap(callback) {
+      let vm = this;
+      function checkForMap() {
+        if (vm.map) callback(vm.map);
+        else setTimeout(checkForMap, 200);
+      }
+      checkForMap();
+    }
+  },
+  created() {
+    bus.$on("openEvent", (stationName, stationId) => {
+      this.stationName = stationName;
+      this.stationId = stationId;
+      this.dialog = !this.dialog;
+    });
+    mapService.getStations().then(response => {
+      this.stations = response.data;
+    });
   }
 };
 </script>

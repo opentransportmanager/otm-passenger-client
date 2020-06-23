@@ -77,7 +77,7 @@
       </v-list>
     </v-navigation-drawer>
 
-    <v-footer
+    <!--<v-footer
       height="40px"
       :class="[{ 'd-none': $vuetify.breakpoint.smAndDown }]"
       absolute
@@ -94,7 +94,7 @@
           {{ new Date().getFullYear() }} — <strong>OpenTransportManager</strong>
         </v-card-text>
       </v-card>
-    </v-footer>
+    </v-footer>-->
   </nav>
 </template>
 

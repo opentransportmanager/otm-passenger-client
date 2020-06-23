@@ -1,6 +1,12 @@
 .map {
-  background-color: #cbf7bf;
-  min-height: 80%;
+  @media (min-width: 1265px) {
+    min-height: 100%;
+  }
+  @media (max-width: 1264px) {
+    min-height: 100%;
+  }
+  //background-color: #cbf7bf;
+  z-index: 0;
 }
 
 

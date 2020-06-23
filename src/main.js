@@ -8,6 +8,7 @@ import { ValidationProvider, setInteractionMode } from "vee-validate";
 import "./components/validationRules";
 import authService from "./services/authService";
 
+export const bus = new Vue();
 Vue.prototype.$authService = authService;
 
 Vue.component("ValidationProvider", ValidationProvider);
