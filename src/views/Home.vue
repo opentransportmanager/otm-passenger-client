@@ -41,12 +41,12 @@
           :station-id="station.id"
           :name-of-station="station.name"
         ></map-marker>
-        <map-info-window
+        <user-location
           v-if="position.longitude != NaN"
           :lat="position.latitude"
           :lng="position.longitude"
-          >Your location</map-info-window
         >
+        </user-location>
       </div>
     </v-row>
     <v-btn top right absolute @click="show = !show" style="z-index: 3" icon
@@ -59,13 +59,13 @@
 import BusStopInfo from "../components/BusStopInfo";
 import MapMarker from "../components/MapMarker";
 import mapService from "../services/mapService";
-import MapInfoWindow from "../components/MapInfoWindow";
+import UserLocation from "../components/UserLocation";
 
 import { bus } from "../main.js";
 
 export default {
   name: "Home",
-  components: { MapInfoWindow, MapMarker, BusStopInfo },
+  components: { UserLocation, MapMarker, BusStopInfo },
 
   data() {
     return {
