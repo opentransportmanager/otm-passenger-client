@@ -38,6 +38,7 @@
               @click.native="getPathsForBusline(busline.id)"
             >
               {{ busline.busline_number }}
+              {{ busline.id }}
             </v-tab>
 
             <v-tabs-items v-model="lineNumbers">
@@ -45,17 +46,30 @@
                 <v-container>
                   <v-layout class="row wrap">
                     <v-flex
+                      v-for="busStop in timetables[busline.id]"
+                      :key="busStop.name"
+                      class=" xs12 text-center"
+                    >
+                      <v-btn
+                        @click="emitBus(busStop.name, busStop.id)"
+                        :class="[
+                          { 'font-weight-bold': busStop.name === stationName }
+                        ]"
+                      >
+                        {{ busStop.name }}
+                      </v-btn>
+                    </v-flex>
+                    <v-flex
                       class="xs4 sm3 md1 text-center"
                       v-for="departure in departures[busline.id]"
                       :key="departure.id"
                     >
-                      <span class="subtitle-1 font-weight-bold">
+                      <span class="pa-0 subtitle-1 font-weight-bold">
                         {{ departure.departure_time }}
                       </span>
                       <br />
-                      <span class="caption">
-                        {{ busline.id }}
-                        {{ departure.group_id }}
+                      <span class="pa-0" style="font-size: 60%">
+                        {{ departure.group.name }}
                       </span>
                     </v-flex>
                   </v-layout>
@@ -70,7 +84,9 @@
 </template>
 
 <script>
+import { bus } from "../main.js";
 import mapService from "../services/mapService";
+
 export default {
   components: {},
   name: "Map",
@@ -83,10 +99,12 @@ export default {
       busStopDialog: true,
       lineNumbers: null,
       buslines: null,
-      departures: []
+      departures: [],
+      timetables: []
     };
   },
   mounted() {
+    console.log("mounted");
     mapService.getBuslinesForStation(this.stationId).then(response => {
       this.buslines = response;
       this.getPathsForBusline(this.buslines[0].id);
@@ -94,14 +112,30 @@ export default {
   },
   methods: {
     getPathsForBusline(buslineId) {
+      console.log(this.stationName);
       if (this.departures[buslineId] === undefined) {
         mapService
           .getDeparturesForBusline(this.stationId, buslineId)
           .then(response => {
+            mapService
+              .getTimetableForStation(response[0].path_id)
+              .then(response => {
+                this.timetables[buslineId] = response.data;
+              });
             this.departures[buslineId] = response;
             this.$forceUpdate();
           });
       }
+    },
+    emitBus(name, id) {
+      this.busStopDialog = false;
+      Object.assign(this.$data, this.$options.data());
+      bus.$emit("openEvent", name, id);
+      mapService.getBuslinesForStation(id).then(response => {
+        this.buslines = response;
+        this.getPathsForBusline(this.buslines[0].id);
+      });
+      this.$forceUpdate();
     }
   }
 };
