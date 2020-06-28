@@ -44,19 +44,35 @@
               <v-tab-item v-for="busline in buslines" :key="busline.id">
                 <v-container>
                   <v-layout class="row wrap">
-                    <v-flex
-                      v-for="busStop in timetables[busline.id]"
-                      :key="busStop.name"
-                      class=" xs12 text-center"
-                    >
-                      <v-btn
-                        @click="emitBus(busStop.name, busStop.id)"
-                        :class="[
-                          { 'font-weight-bold': busStop.name === stationName }
-                        ]"
-                      >
-                        {{ busStop.name }}
-                      </v-btn>
+                    <v-flex class="xs12 pa-8">
+                      <v-flex class="xs12 sm4 offset-xs0 offset-sm4">
+                        <v-expansion-panels popout>
+                          <v-expansion-panel>
+                            <v-expansion-panel-header class="text-center"
+                              >Timetable</v-expansion-panel-header
+                            >
+                            <v-expansion-panel-content
+                              v-for="busStop in timetables[busline.id]"
+                              :key="busStop.name"
+                              class=" xs12 text-center"
+                            >
+                              <v-btn
+                                min-width="100%"
+                                text
+                                @click="emitBus(busStop.name, busStop.id)"
+                                :class="[
+                                  {
+                                    'font-weight-bold choosen white--text':
+                                      busStop.name === stationName
+                                  }
+                                ]"
+                              >
+                                {{ busStop.name }}
+                              </v-btn>
+                            </v-expansion-panel-content>
+                          </v-expansion-panel>
+                        </v-expansion-panels>
+                      </v-flex>
                     </v-flex>
                     <v-flex
                       class="xs4 sm3 md1 text-center"
@@ -119,6 +135,7 @@ export default {
               .getTimetableForStation(response[0].path_id)
               .then(response => {
                 this.timetables[buslineId] = response.data;
+                this.$forceUpdate();
               });
             this.departures[buslineId] = response;
             this.$forceUpdate();
@@ -139,4 +156,9 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.choosen {
+  background-color: grey;
+  color: grey;
+}
+</style>

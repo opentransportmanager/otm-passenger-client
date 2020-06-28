@@ -49,14 +49,7 @@
         >
       </div>
     </v-row>
-    <v-btn
-      class=""
-      top
-      right
-      absolute
-      @click="show = !show"
-      style="z-index: 3"
-      icon
+    <v-btn top right absolute @click="show = !show" style="z-index: 3" icon
       ><v-icon x-large color="dark">mdi-bus-marker</v-icon>
     </v-btn>
   </v-container>
@@ -92,7 +85,14 @@ export default {
     this.map = new window.google.maps.Map(this.$refs["map"], {
       center: { lat: 51.202709, lng: 16.15371 },
       zoom: 14,
-      disableDefaultUI: true
+      disableDefaultUI: true,
+      styles: [
+        {
+          featureType: "poi",
+          elementType: "labels",
+          stylers: [{ visibility: "off" }]
+        }
+      ]
     });
     mapService.getBuslines().then(response => {
       this.buslines = response.data;
