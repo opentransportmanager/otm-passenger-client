@@ -112,7 +112,6 @@ export default {
   },
   methods: {
     getPathsForBusline(buslineId) {
-      console.log(this.stationName);
       if (this.departures[buslineId] === undefined) {
         mapService
           .getDeparturesForBusline(this.stationId, buslineId)

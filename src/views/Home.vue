@@ -114,24 +114,20 @@ export default {
     },
     getMap(callback) {
       let vm = this;
-
       function checkForMap() {
         if (vm.map) callback(vm.map);
         else setTimeout(checkForMap, 200);
       }
-
       checkForMap();
     }
   },
   created() {
     bus.$on("openEvent", (stationName, stationId) => {
-      console.log("przekazana stacja: " + stationName);
       if (this.dialog === true) this.dialog = !this.dialog;
       this.stationName = stationName;
       this.stationId = stationId;
       this.dialog = !this.dialog;
     });
-
     mapService.getStations().then(response => {
       this.stations = response.data;
     });
