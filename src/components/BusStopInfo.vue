@@ -38,7 +38,6 @@
               @click.native="getPathsForBusline(busline.id)"
             >
               {{ busline.busline_number }}
-              {{ busline.id }}
             </v-tab>
 
             <v-tabs-items v-model="lineNumbers">
