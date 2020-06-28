@@ -18,5 +18,8 @@ export default {
   },
   getStations: function() {
     return axios.get("/stations");
+  },
+  getTimetableForStation: function(pathId) {
+    return axios.get(`/paths/${pathId}/stations`);
   }
 };
