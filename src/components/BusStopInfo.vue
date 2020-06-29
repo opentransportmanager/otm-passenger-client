@@ -121,16 +121,10 @@ export default {
     };
   },
   mounted() {
-    console.log("mounted");
     mapService.getBuslinesForStation(this.stationId).then(response => {
       this.buslines = response;
       this.getPathsForBusline(this.buslines[0].id);
     });
-  },
-  watch: {
-    lineNumbers() {
-      console.log("Aktualna linia: " + this.lineNumbers);
-    }
   },
   methods: {
     getPathsForBusline(buslineId) {
@@ -158,7 +152,6 @@ export default {
         for (let i = 0; i < this.buslines.length; i++) {
           if (this.buslines[i].id === buslineId) {
             this.lineNumbers = i;
-            console.log(this.lineNumbers);
             break;
           }
         }
