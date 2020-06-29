@@ -45,21 +45,26 @@
                 <v-container>
                   <v-layout class="row wrap">
                     <v-flex class="xs12 pa-8">
-                      <v-flex class="xs12 sm4 offset-xs0 offset-sm4">
-                        <v-expansion-panels popout>
+                      <v-flex class="xs12 sm4 offset-xs0 offset-sm4 ">
+                        <v-expansion-panels hover popout>
                           <v-expansion-panel>
                             <v-expansion-panel-header
+                              color="#ffd391"
                               class="text-center"
                               @click="getTimetable(busline.id)"
                               >Timetable</v-expansion-panel-header
                             >
                             <v-expansion-panel-content
-                              v-for="busStop in timetables[busline.id]"
-                              :key="busStop.name"
+                              v-cloak
+                              style="max-height: 175px; overflow-y:scroll; "
+                              color="#ffd699"
                               class=" xs12 text-center"
                             >
                               <v-btn
+                                v-for="busStop in timetables[busline.id]"
+                                :key="busStop.name"
                                 min-width="100%"
+                                max-width="100%"
                                 text
                                 @click="
                                   changeBusStation(
@@ -75,7 +80,11 @@
                                   }
                                 ]"
                               >
-                                {{ busStop.name }}
+                                {{
+                                  busStop.name.length > 25
+                                    ? busStop.name.substring(0, 25) + "..."
+                                    : busStop.name
+                                }}
                               </v-btn>
                             </v-expansion-panel-content>
                           </v-expansion-panel>
@@ -123,7 +132,8 @@ export default {
       activeTab: null,
       buslines: null,
       departures: [],
-      timetables: []
+      timetables: [],
+      isLoading: false
     };
   },
   mounted() {
