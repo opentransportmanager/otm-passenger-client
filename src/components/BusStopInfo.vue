@@ -59,7 +59,9 @@
                               <v-btn
                                 min-width="100%"
                                 text
-                                @click="emitBus(busStop.name, busStop.id)"
+                                @click="
+                                  emitBus(busStop.name, busStop.id, busline.id)
+                                "
                                 :class="[
                                   {
                                     'font-weight-bold choosen white--text':
@@ -125,6 +127,11 @@ export default {
       this.getPathsForBusline(this.buslines[0].id);
     });
   },
+  watch: {
+    lineNumbers() {
+      console.log("Aktualna linia: " + this.lineNumbers);
+    }
+  },
   methods: {
     getPathsForBusline(buslineId) {
       if (this.departures[buslineId] === undefined) {
@@ -142,13 +149,22 @@ export default {
           });
       }
     },
-    emitBus(name, id) {
+    emitBus(busStationName, busStationId, buslineId) {
       this.busStopDialog = false;
       Object.assign(this.$data, this.$options.data());
-      bus.$emit("openEvent", name, id);
-      mapService.getBuslinesForStation(id).then(response => {
+      bus.$emit("openEvent", busStationName, busStationId);
+      mapService.getBuslinesForStation(busStationId).then(response => {
         this.buslines = response;
-        this.getPathsForBusline(this.buslines[0].id);
+        for (let i = 0; i < this.buslines.length; i++) {
+          if (this.buslines[i].id === buslineId) {
+            this.lineNumbers = i;
+            console.log(this.lineNumbers);
+            break;
+          }
+        }
+        this.getPathsForBusline(
+          this.buslines[this.lineNumbers === 0 ? 0 : this.lineNumbers].id
+        );
       });
       this.$forceUpdate();
     }
