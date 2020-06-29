@@ -48,7 +48,9 @@
                       <v-flex class="xs12 sm4 offset-xs0 offset-sm4">
                         <v-expansion-panels popout>
                           <v-expansion-panel>
-                            <v-expansion-panel-header class="text-center"
+                            <v-expansion-panel-header
+                              class="text-center"
+                              @click="getTimetable(busline.id)"
                               >Timetable</v-expansion-panel-header
                             >
                             <v-expansion-panel-content
@@ -132,16 +134,18 @@ export default {
         mapService
           .getDeparturesForBusline(this.stationId, buslineId)
           .then(response => {
-            mapService
-              .getTimetableForStation(response[0].path_id)
-              .then(response => {
-                this.timetables[buslineId] = response.data;
-                this.$forceUpdate();
-              });
             this.departures[buslineId] = response;
             this.$forceUpdate();
           });
       }
+    },
+    getTimetable(buslineId) {
+      mapService
+        .getTimetableForStation(this.departures[buslineId][0].path_id)
+        .then(response => {
+          this.timetables[buslineId] = response.data;
+          this.$forceUpdate();
+        });
     },
     emitBus(busStationName, busStationId, buslineId) {
       this.busStopDialog = false;
