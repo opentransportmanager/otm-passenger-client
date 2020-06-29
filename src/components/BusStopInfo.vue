@@ -27,7 +27,7 @@
             centered
             center-active
             show-arrows
-            v-model="lineNumbers"
+            v-model="activeTab"
             background-color="transparent"
             color="#FFBF69"
           >
@@ -40,7 +40,7 @@
               {{ busline.busline_number }}
             </v-tab>
 
-            <v-tabs-items v-model="lineNumbers">
+            <v-tabs-items v-model="activeTab">
               <v-tab-item v-for="busline in buslines" :key="busline.id">
                 <v-container>
                   <v-layout class="row wrap">
@@ -114,7 +114,7 @@ export default {
   data() {
     return {
       busStopDialog: true,
-      lineNumbers: null,
+      activeTab: null,
       buslines: null,
       departures: [],
       timetables: []
@@ -151,12 +151,12 @@ export default {
         this.buslines = response;
         for (let i = 0; i < this.buslines.length; i++) {
           if (this.buslines[i].id === buslineId) {
-            this.lineNumbers = i;
+            this.activeTab = i;
             break;
           }
         }
         this.getPathsForBusline(
-          this.buslines[this.lineNumbers === 0 ? 0 : this.lineNumbers].id
+          this.buslines[this.activeTab === null ? 0 : this.activeTab].id
         );
       });
       this.$forceUpdate();
