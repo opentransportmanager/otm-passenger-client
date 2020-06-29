@@ -62,7 +62,11 @@
                                 min-width="100%"
                                 text
                                 @click="
-                                  emitBus(busStop.name, busStop.id, busline.id)
+                                  changeBusStation(
+                                    busStop.name,
+                                    busStop.id,
+                                    busline.id
+                                  )
                                 "
                                 :class="[
                                   {
@@ -147,7 +151,7 @@ export default {
           this.$forceUpdate();
         });
     },
-    emitBus(busStationName, busStationId, buslineId) {
+    changeBusStation(busStationName, busStationId, buslineId) {
       this.busStopDialog = false;
       Object.assign(this.$data, this.$options.data());
       bus.$emit("openEvent", busStationName, busStationId);
