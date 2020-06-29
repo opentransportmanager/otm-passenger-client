@@ -56,9 +56,8 @@
                             >
                             <v-expansion-panel-content
                               v-cloak
-                              style="max-height: 175px; overflow-y:scroll; "
                               color="#ffd699"
-                              class=" xs12 text-center"
+                              class=" xs12 text-center scrollable"
                             >
                               <v-btn
                                 v-for="busStop in timetables[busline.id]"
@@ -187,5 +186,9 @@ export default {
 .choosen {
   background-color: grey;
   color: grey;
+}
+.scrollable {
+  overflow-y: auto;
+  max-height: 30vh;
 }
 </style>
