@@ -16,6 +16,7 @@ export default {
   },
   getBuslines: function() {
     return axios.get(`/buslines`).then(({ data }) => {
+      data = _.orderBy(data, "number");
       store.dispatch("saveBuslines", data);
     });
   },
