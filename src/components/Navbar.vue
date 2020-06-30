@@ -76,25 +76,6 @@
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
-
-    <!--<v-footer
-      height="40px"
-      :class="[{ 'd-none': $vuetify.breakpoint.smAndDown }]"
-      absolute
-      padless
-    >
-      <v-card
-        tile
-        height="100%"
-        width="100%"
-        class="text-center "
-        color="#CBF3F0"
-      >
-        <v-card-text class="ma-0 pb-0 pt-2">
-          {{ new Date().getFullYear() }} — <strong>OpenTransportManager</strong>
-        </v-card-text>
-      </v-card>
-    </v-footer>-->
   </nav>
 </template>
 
@@ -110,7 +91,7 @@ export default {
     return {
       sideNav: false,
       links: [
-        { icon: "", text: "Link1", route: "/", reqLog: false },
+        { icon: "", text: "User Panel", route: "/userPanel", reqLog: false },
         { icon: "", text: "About", route: "/about", reqLog: false },
         { icon: "", text: "Link3", route: "/", reqLog: true },
         { icon: "", text: "Link4", route: "/", reqLog: false }
