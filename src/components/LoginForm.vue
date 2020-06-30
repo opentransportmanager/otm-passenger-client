@@ -1,12 +1,16 @@
 <template>
   <v-dialog max-width="400px" v-model="dialog">
     <template v-slot:activator="{ on }">
-      <v-btn color="#FFBF69" class="ma-2" v-on="on" @click="clearErrors">
+      <v-btn
+        class="ma-2 secondary text--primary"
+        v-on="on"
+        @click="clearErrors"
+      >
         <span class="d-none d-sm-flex">login</span>
         <v-icon small class="d-sm-none">mdi-login</v-icon>
       </v-btn>
     </template>
-    <v-card color="#FFBF69">
+    <v-card class="secondary">
       <v-card-title class="justify-center">
         <h2>Login</h2>
       </v-card-title>
@@ -45,7 +49,7 @@
               required
             ></v-text-field>
           </validation-provider>
-          <v-btn color="#FF9F1C" type="submit" :loading="loading">Login</v-btn>
+          <v-btn class="primary" type="submit" :loading="loading">Login</v-btn>
         </v-form>
       </v-card-text>
     </v-card>

@@ -2,14 +2,14 @@
   <v-container fill-height>
     <v-layout class="row wrap justify-center">
       <v-flex class="xs6">
-        <v-card class="text-center">
+        <v-card class="text-center primary">
           <v-card-title class="justify-center">
             Your subscriptions
           </v-card-title>
           <v-card-text>
             <v-layout class="row wrap justify-center">
               <v-flex class="xs6">
-                <v-list rounded dense>
+                <v-list rounded dense class="secondary">
                   <v-list-item-group v-model="item" color="primary">
                     <v-subheader>Unsubscribed lines</v-subheader>
                     <v-list-item
@@ -30,7 +30,7 @@
                 </v-list>
               </v-flex>
               <v-flex class="xs6">
-                <v-list rounded dense>
+                <v-list rounded dense class="thirdOrange">
                   <v-subheader>Subscribed lines</v-subheader>
                   <v-list-item
                     v-for="busline in subscribedBuslines"

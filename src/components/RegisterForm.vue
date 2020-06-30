@@ -1,12 +1,12 @@
 <template>
   <v-dialog max-width="400px" v-model="dialog">
     <template v-slot:activator="{ on }">
-      <v-btn color="#FF9F1C" v-on="on" @click="clearErrors">
+      <v-btn class="text--primary primary" v-on="on" @click="clearErrors">
         <span class="d-none d-sm-flex ">Register</span>
         <v-icon class="d-sm-none">mdi-account-plus-outline</v-icon>
       </v-btn>
     </template>
-    <v-card color="#FFBF69">
+    <v-card class="secondary">
       <v-card-title class="justify-center">
         <h2>Register</h2>
       </v-card-title>
@@ -78,7 +78,7 @@
               required
             ></v-text-field>
           </validation-provider>
-          <v-btn color="#FF9F1C" type="submit" :loading="loading"
+          <v-btn class="primary" type="submit" :loading="loading"
             >Register</v-btn
           >
         </v-form>

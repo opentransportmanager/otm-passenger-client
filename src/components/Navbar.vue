@@ -1,6 +1,6 @@
 <template>
   <nav>
-    <v-app-bar app color="#CBF3F0">
+    <v-app-bar app class="accent">
       <v-toolbar-title class="text-uppercase grey--text">
         <router-link
           to="/"
