@@ -4,7 +4,7 @@
       <v-flex class="xs6">
         <v-card class="text-center">
           <v-card-title class="justify-center">
-            Hejka
+            Your subscriptions
           </v-card-title>
           <v-card-text>
             <v-layout class="row wrap justify-center">
