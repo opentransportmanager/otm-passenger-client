@@ -5,7 +5,9 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    user: null
+    user: null,
+    buslines: null,
+    stations: null
   },
 
   mutations: {
@@ -17,6 +19,12 @@ export default new Vuex.Store({
     clearUserData(state) {
       localStorage.removeItem("user");
       state.user = null;
+    },
+    saveBuslines(state, buslines) {
+      state.buslines = buslines;
+    },
+    saveStations(state, stations) {
+      state.stations = stations;
     }
   },
 
@@ -31,6 +39,12 @@ export default new Vuex.Store({
 
     logout({ commit }) {
       commit("clearUserData");
+    },
+    saveBuslines({ commit }, data) {
+      commit("saveBuslines", data);
+    },
+    saveStations({ commit }, data) {
+      commit("saveStations", data);
     }
   },
 
@@ -41,6 +55,14 @@ export default new Vuex.Store({
         return state.user.token;
       }
       return false;
+    },
+    buslines(state) {
+      if (state.buslines) return state.buslines;
+      return null;
+    },
+    stations(state) {
+      if (state.stations) return state.stations;
+      return null;
     }
   }
 });

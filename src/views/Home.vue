@@ -8,32 +8,36 @@
         :station-name="stationName"
         :station-id="stationId"
       />
-      <v-card
-        style="z-index: 3; position: absolute"
-        v-if="show"
-        :class="[
-          'col-2 pa-0 pb-2 elevation-7',
-          { 'col-8 order-2': $vuetify.breakpoint.mdAndDown }
-        ]"
-      >
-        <v-container>
-          <v-row no-gutters>
-            <v-btn
-              rounded
-              x-small
-              v-for="busline in buslines"
-              :key="busline.number"
-              @click="busline.check = !busline.check"
-              :color="busline.check ? '#FF9F1C' : '#FFBF69'"
-              :class="['ma-1 ma-sm-2', { 'white--text': busline.check }]"
-              >{{ busline.number }}
-            </v-btn>
-          </v-row>
-        </v-container>
-      </v-card>
+      <transition name="fade">
+        <v-card
+          style="z-index: 3; position: absolute"
+          v-if="show"
+          elevation="0"
+          :class="[
+            'col-3 pa-0 pb-2 transparent',
+            { 'col-8 order-2': $vuetify.breakpoint.smAndDown }
+          ]"
+        >
+          <v-container>
+            <v-row no-gutters>
+              <v-btn
+                rounded
+                x-small
+                v-for="busline in buslines"
+                :key="busline.number"
+                @click="busline.check = !busline.check"
+                :color="busline.check ? '#FF9F1C' : '#FFBF69'"
+                :class="['ma-1 ma-sm-2', { 'white--text': busline.check }]"
+                >{{ busline.number }}
+              </v-btn>
+            </v-row>
+          </v-container>
+        </v-card>
+      </transition>
 
       <div class="col-12 map" ref="map">
         <map-marker
+          style="display: none"
           v-for="station in stations"
           :key="station.id"
           :lat="station.position.lat"
@@ -60,6 +64,7 @@ import BusStopInfo from "../components/BusStopInfo";
 import MapMarker from "../components/MapMarker";
 import mapService from "../services/mapService";
 import UserLocation from "../components/UserLocation";
+import { mapGetters } from "vuex";
 
 import { bus } from "../main.js";
 
@@ -72,14 +77,16 @@ export default {
       selected: [],
       map: null,
       dialog: false,
-      stations: [],
       stationName: null,
       stationId: null,
-      buslines: null,
       show: false,
+      markerCluster: null,
 
       position: { longitude: NaN, latitude: NaN }
     };
+  },
+  computed: {
+    ...mapGetters(["buslines", "stations", "markers"])
   },
   mounted() {
     this.map = new window.google.maps.Map(this.$refs["map"], {
@@ -94,9 +101,7 @@ export default {
         }
       ]
     });
-    mapService.getBuslines().then(response => {
-      this.buslines = response.data;
-    });
+    mapService.getBuslines().then(() => {});
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         this.getPositionSuccess,
@@ -114,10 +119,12 @@ export default {
     },
     getMap(callback) {
       let vm = this;
+
       function checkForMap() {
         if (vm.map) callback(vm.map);
         else setTimeout(checkForMap, 200);
       }
+
       checkForMap();
     }
   },
@@ -128,9 +135,7 @@ export default {
       this.stationId = stationId;
       this.dialog = !this.dialog;
     });
-    mapService.getStations().then(response => {
-      this.stations = response.data;
-    });
+    mapService.getStations();
   }
 };
 </script>
