@@ -7,7 +7,8 @@ export default new Vuex.Store({
   state: {
     user: null,
     buslines: null,
-    stations: null
+    stations: null,
+    subscribedBuslines: []
   },
 
   mutations: {
@@ -25,6 +26,12 @@ export default new Vuex.Store({
     },
     saveStations(state, stations) {
       state.stations = stations;
+    },
+    subscribeBusline(state, buslineId) {
+      const busline = state.buslines.find(busline => {
+        return busline.id === buslineId;
+      });
+      state.subscribedBuslines.push(busline);
     }
   },
 
@@ -45,6 +52,11 @@ export default new Vuex.Store({
     },
     saveStations({ commit }, data) {
       commit("saveStations", data);
+    },
+    subscribeBusline({ commit }, buslineId) {
+      setTimeout(() => {
+        commit("subscribeBusline", buslineId);
+      }, 250);
     }
   },
 
@@ -62,6 +74,10 @@ export default new Vuex.Store({
     },
     stations(state) {
       if (state.stations) return state.stations;
+      return null;
+    },
+    subscribedBuslines(state) {
+      if (state.subscribedBuslines) return state.subscribedBuslines;
       return null;
     }
   }
