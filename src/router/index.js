@@ -13,6 +13,11 @@ const routes = [
     path: "/about",
     name: "About",
     component: () => import("../views/About.vue")
+  },
+  {
+    path: "/userPanel",
+    name: "UserPanel",
+    component: () => import("../views/UserPanel")
   }
 ];
 
@@ -26,12 +31,12 @@ router.beforeEach((to, from, next) => {
   const loggedIn = localStorage.getItem("user");
 
   if (to.matched.some(record => record.meta.auth) && !loggedIn) {
-    next("/login");
+    next("/");
   } else if (
     to.matched.some(record => record.meta.requiresVisitor) &&
     loggedIn
   ) {
-    next("/home");
+    next("/");
   } else next();
 });
 
