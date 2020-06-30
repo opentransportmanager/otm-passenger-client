@@ -6,7 +6,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     user: null,
-    buslines: null,
+    buslines: localStorage.getItem("buslines") || null,
     stations: null,
     subscribedBuslines: []
   },
@@ -23,6 +23,7 @@ export default new Vuex.Store({
     },
     saveBuslines(state, buslines) {
       state.buslines = buslines;
+      localStorage.setItem("buslines", JSON.stringify(buslines));
     },
     saveStations(state, stations) {
       state.stations = stations;

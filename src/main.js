@@ -22,6 +22,11 @@ new Vue({
   store,
   vuetify,
   created() {
+    const buslines = localStorage.getItem("buslines");
+    if (buslines) {
+      const buslinesData = JSON.parse(buslines);
+      this.$store.commit("saveBuslines", buslinesData);
+    }
     const userDetails = localStorage.getItem("user");
     if (userDetails) {
       const userData = JSON.parse(userDetails);
