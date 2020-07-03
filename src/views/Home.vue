@@ -86,7 +86,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["buslines", "stations", "markers"])
+    ...mapGetters(["buslines", "stations"])
   },
   mounted() {
     this.map = new window.google.maps.Map(this.$refs["map"], {
