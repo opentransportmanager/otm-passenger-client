@@ -14,7 +14,7 @@
                     <v-subheader>Unsubscribed lines</v-subheader>
                     <v-list-item
                       @click="subscribeBusline(busline)"
-                      v-for="busline in unSubscribedBuslines"
+                      v-for="busline in unsubscribedBuslines"
                       :key="busline.id"
                     >
                       <v-list-item-content>
@@ -33,6 +33,7 @@
                 <v-list rounded dense class="thirdOrange">
                   <v-subheader>Subscribed lines</v-subheader>
                   <v-list-item
+                    @click="unsubscribeBusline(busline)"
                     v-for="busline in subscribedBuslines"
                     :key="busline.id"
                   >
@@ -41,7 +42,7 @@
                     </v-list-item-content>
                     <v-list-item-icon
                       ><v-icon>
-                        mdi-plus
+                        mdi-minus
                       </v-icon></v-list-item-icon
                     >
                   </v-list-item>
@@ -56,7 +57,6 @@
 </template>
 
 <script>
-import _ from "lodash";
 import { mapGetters } from "vuex";
 
 export default {
@@ -67,14 +67,19 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["buslines", "subscribedBuslines"]),
-    unSubscribedBuslines() {
-      return _.difference(this.buslines, this.subscribedBuslines);
-    }
+    ...mapGetters([
+      "buslines",
+      "subscribedBuslines",
+      "isLogged",
+      "unsubscribedBuslines"
+    ])
   },
   methods: {
     subscribeBusline(busline) {
-      this.$store.dispatch("subscribeBusline", busline.id);
+      this.$authService.subscribeBusline(busline.id);
+    },
+    unsubscribeBusline(busline) {
+      this.$authService.unsubscribeBusline(busline.id);
     }
   }
 };
