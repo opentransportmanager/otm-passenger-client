@@ -21,6 +21,7 @@ export default new Vuex.Store({
     clearUserData(state) {
       localStorage.removeItem("user");
       localStorage.removeItem("subscribedBuslines");
+      localStorage.removeItem("unsubscribedBuslines");
       state.user = null;
     },
     saveBuslines(state, buslines) {
