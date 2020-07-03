@@ -62,7 +62,6 @@ export default new Vuex.Store({
       state.unsubscribedBuslines.push(busline);
     },
     updateLocalStorage(state) {
-      console.log("drugi");
       localStorage.setItem(
         "subscribedBuslines",
         JSON.stringify(state.subscribedBuslines)

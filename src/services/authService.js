@@ -9,7 +9,6 @@ export default {
         password: password
       })
       .then(({ data }) => {
-        console.log(data);
         store.dispatch("login", data);
       });
   },
