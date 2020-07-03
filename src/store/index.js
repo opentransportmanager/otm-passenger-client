@@ -35,7 +35,6 @@ export default new Vuex.Store({
       localStorage.setItem("subscribedBuslines", JSON.stringify(subscriptions));
     },
     saveUnsubscribes(state, unsubscribes) {
-      console.log(unsubscribes);
       state.unsubscribedBuslines = unsubscribes;
       localStorage.setItem(
         "unsubscribedBuslines",
@@ -50,15 +49,7 @@ export default new Vuex.Store({
         state.unsubscribedBuslines.indexOf(busline),
         1
       );
-      localStorage.setItem(
-        "unsubscribedBuslines",
-        JSON.stringify(state.unsubscribedBuslines)
-      );
       state.subscribedBuslines.push(busline);
-      localStorage.setItem(
-        "subscribedBuslines",
-        JSON.stringify(state.subscribedBuslines)
-      );
     },
     unsubscribeBusline(state, buslineId) {
       const busline = state.subscribedBuslines.find(busline => {
@@ -68,11 +59,14 @@ export default new Vuex.Store({
         state.subscribedBuslines.indexOf(busline),
         1
       );
+      state.unsubscribedBuslines.push(busline);
+    },
+    updateLocalStorage(state) {
+      console.log("drugi");
       localStorage.setItem(
         "subscribedBuslines",
         JSON.stringify(state.subscribedBuslines)
       );
-      state.unsubscribedBuslines.push(busline);
       localStorage.setItem(
         "unsubscribedBuslines",
         JSON.stringify(state.unsubscribedBuslines)
@@ -105,12 +99,14 @@ export default new Vuex.Store({
     subscribeBusline({ commit }, buslineId) {
       setTimeout(() => {
         commit("subscribeBusline", buslineId);
-      }, 250);
+        commit("updateLocalStorage");
+      }, 125);
     },
     unsubscribeBusline({ commit }, buslineId) {
       setTimeout(() => {
         commit("unsubscribeBusline", buslineId);
-      }, 250);
+        commit("updateLocalStorage");
+      }, 125);
     }
   },
 
