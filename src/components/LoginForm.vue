@@ -82,6 +82,7 @@ export default {
           .then(() => {
             this.dialog = false;
             this.serverError = "";
+            this.$authService.getSubscribes();
           })
           .catch(err => {
             this.serverError = err.response.data.toString();
