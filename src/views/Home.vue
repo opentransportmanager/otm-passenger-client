@@ -170,7 +170,6 @@ export default {
     },
     getMap(callback) {
       let vm = this;
-
       function checkForMap() {
         if (vm.map) callback(vm.map);
         else setTimeout(checkForMap, 200);
