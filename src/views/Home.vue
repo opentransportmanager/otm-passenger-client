@@ -8,78 +8,6 @@
         :station-name="stationName"
         :station-id="stationId"
       />
-      <transition name="fade">
-        <v-card
-          style="z-index: 3; position: absolute"
-          v-if="show"
-          elevation="0"
-          :class="[
-            'col-3 pa-0 pb-2 transparent',
-            { 'col-8 order-2': $vuetify.breakpoint.smAndDown }
-          ]"
-        >
-          <v-container>
-            <v-row no-gutters v-if="!isLogged">
-              <v-btn
-                rounded
-                x-small
-                v-for="busline in buslines"
-                :key="busline.number"
-                @click="busline.check = !busline.check"
-                :color="busline.check ? '#FF9F1C' : '#FFBF69'"
-                :class="['ma-1 ma-sm-2', { 'white--text': busline.check }]"
-                >{{ busline.number }}
-              </v-btn>
-            </v-row>
-            <v-row no-gutters v-if="isLogged" class="pa-0 justify-center">
-              <v-alert
-                color="yellow"
-                dense
-                class="py-1 ma-0  col-12 text-center"
-              >
-                <v-icon color="black">mdi-star</v-icon>
-                SubscribedLines
-              </v-alert>
-            </v-row>
-            <v-row no-gutters v-if="isLogged">
-              <v-btn
-                rounded
-                x-small
-                v-for="busline in subscribedBuslines"
-                :key="busline.number"
-                @click="busline.check = !busline.check"
-                :color="busline.check ? '#FF9F1C' : '#ff9200'"
-                :class="['ma-1 ma-sm-2', { 'white--text': busline.check }]"
-                >{{ busline.number }}
-              </v-btn>
-            </v-row>
-            <v-row no-gutters v-if="isLogged" class="mt-4 justify-center">
-              <v-alert
-                color="blue-grey"
-                dark
-                dense
-                class="py-1 ma-0 col-12 text-center"
-              >
-                <v-icon>mdi-star-off</v-icon>
-                UnSubscribedLines
-              </v-alert>
-            </v-row>
-            <v-row no-gutters v-if="isLogged">
-              <v-btn
-                rounded
-                x-small
-                v-for="busline in unsubscribedBuslines"
-                :key="busline.number"
-                @click="busline.check = !busline.check"
-                :color="busline.check ? '#FF9F1C' : '#FFBF69'"
-                :class="['ma-1 ma-sm-2', { 'white--text': busline.check }]"
-                >{{ busline.number }}
-              </v-btn>
-            </v-row>
-          </v-container>
-        </v-card>
-      </transition>
-
       <div class="col-12 map" ref="map">
         <map-marker
           style="display: none"
@@ -101,6 +29,7 @@
     <v-btn top right absolute @click="show = !show" style="z-index: 3" icon
       ><v-icon x-large color="dark">mdi-bus-marker</v-icon>
     </v-btn>
+    <buslines-card :show="show" />
   </v-container>
 </template>
 
@@ -109,13 +38,14 @@ import BusStopInfo from "../components/BusStopInfo";
 import MapMarker from "../components/MapMarker";
 import mapService from "../services/mapService";
 import UserLocation from "../components/UserLocation";
+import BuslinesCard from "../components/BuslinesCard";
 import { mapGetters } from "vuex";
 
 import { bus } from "../main.js";
 
 export default {
   name: "Home",
-  components: { UserLocation, MapMarker, BusStopInfo },
+  components: { BuslinesCard, UserLocation, MapMarker, BusStopInfo },
 
   data() {
     return {
@@ -131,13 +61,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters([
-      "buslines",
-      "stations",
-      "subscribedBuslines",
-      "unsubscribedBuslines",
-      "isLogged"
-    ])
+    ...mapGetters(["stations"])
   },
   mounted() {
     this.map = new window.google.maps.Map(this.$refs["map"], {
