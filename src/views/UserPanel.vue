@@ -38,7 +38,7 @@
                           x-large
                           block
                           elevation="8"
-                          @click="subscribeBusline(busline)"
+                          @click="subscribeBusline(busline.id)"
                         >
                           <span>{{ busline.number }}</span>
                           <v-icon right class="mr-0">
@@ -77,7 +77,7 @@
                           x-large
                           block
                           elevation="8"
-                          @click="unsubscribeBusline(busline)"
+                          @click="unsubscribeBusline(busline.id)"
                         >
                           <span>{{ busline.number }}</span>
                           <v-icon right class="mr-0">
@@ -117,11 +117,11 @@ export default {
     ])
   },
   methods: {
-    subscribeBusline(busline) {
-      this.$subscriptionService.subscribeBusline(busline.id);
+    subscribeBusline(buslineId) {
+      this.$subscriptionService.subscribeBusline(buslineId);
     },
-    unsubscribeBusline(busline) {
-      this.$subscriptionService.unsubscribeBusline(busline.id);
+    unsubscribeBusline(buslineId) {
+      this.$subscriptionService.unsubscribeBusline(buslineId);
     }
   }
 };
