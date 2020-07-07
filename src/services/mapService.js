@@ -38,6 +38,9 @@ export default {
     return axios
       .get("/stations")
       .then(({ data }) => {
+        data.sort(function(a, b) {
+          return a.name.localeCompare(b.name);
+        });
         store.dispatch("saveStations", data);
       })
       .catch(() => {
