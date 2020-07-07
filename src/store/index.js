@@ -106,7 +106,7 @@ export default new Vuex.Store({
       setTimeout(() => {
         commit("unsubscribeBusline", buslineId);
         commit("updateLocalStorage");
-      }, 125);
+      }, 15);
     }
   },
 

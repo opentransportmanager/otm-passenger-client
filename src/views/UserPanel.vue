@@ -1,52 +1,94 @@
 <template>
   <v-container fill-height>
     <v-layout class="row wrap justify-center">
-      <v-flex class="xs6">
-        <v-card class="text-center primary">
-          <v-card-title class="justify-center">
+      <v-flex class="xs10">
+        <v-card
+          class="text-center light-green lighten-2 fill-height elevation-8"
+        >
+          <v-card-title class="justify-center light-green darken-1 mb-5">
             Your subscriptions
           </v-card-title>
           <v-card-text>
-            <v-layout class="row wrap justify-center">
-              <v-flex class="xs6">
-                <v-list rounded dense class="secondary">
-                  <v-list-item-group v-model="item" color="primary">
-                    <v-subheader>Unsubscribed lines</v-subheader>
-                    <v-list-item
-                      @click="subscribeBusline(busline)"
-                      v-for="busline in unsubscribedBuslines"
-                      :key="busline.id"
+            <v-layout class="row wrap justify-center pa-4">
+              <v-flex class="xs6 pr-4">
+                <v-layout wrap justify-center>
+                  <v-flex class="xs12">
+                    <v-alert
+                      border="left"
+                      elevation="5"
+                      color="blue-grey"
+                      dark
+                      dense
+                      class="my-3 col-12 text-center"
                     >
-                      <v-list-item-content>
-                        <span>{{ busline.number }}</span>
-                      </v-list-item-content>
-                      <v-list-item-icon
-                        ><v-icon>
-                          mdi-plus
-                        </v-icon></v-list-item-icon
-                      >
-                    </v-list-item>
-                  </v-list-item-group>
-                </v-list>
+                      <v-icon>mdi-star-off</v-icon>
+                      <span class="hidden-xs-only">UnSubscribedLines</span>
+                    </v-alert>
+                  </v-flex>
+                  <v-flex
+                    class="xs12 sm4 md3 lg2 pa-1"
+                    v-for="busline in unsubscribedBuslines"
+                    :key="busline.id"
+                  >
+                    <v-tooltip top>
+                      <template v-slot:activator="{ on }">
+                        <v-btn
+                          v-on="on"
+                          class="thirdOrange pa-0 effect01"
+                          x-large
+                          block
+                          elevation="8"
+                          @click="subscribeBusline(busline)"
+                        >
+                          <span>{{ busline.number }}</span>
+                          <v-icon right class="mr-0">
+                            mdi-plus
+                          </v-icon>
+                        </v-btn>
+                      </template>
+                      <span>Click to subscribe line</span>
+                    </v-tooltip>
+                  </v-flex>
+                </v-layout>
               </v-flex>
-              <v-flex class="xs6">
-                <v-list rounded dense class="thirdOrange">
-                  <v-subheader>Subscribed lines</v-subheader>
-                  <v-list-item
-                    @click="unsubscribeBusline(busline)"
+              <v-flex class="xs6 pl-4">
+                <v-flex class="xs12">
+                  <v-alert
+                    color="yellow"
+                    elevation="5"
+                    border="left"
+                    class="my-3 col-12 text-center"
+                  >
+                    <v-icon color="black">mdi-star</v-icon>
+                    <span class="hidden-xs-only">SubscribedLines</span>
+                  </v-alert>
+                </v-flex>
+                <v-layout wrap justify-center>
+                  <v-flex
+                    class="xs12 sm4 md3 lg2 pa-1"
                     v-for="busline in subscribedBuslines"
                     :key="busline.id"
                   >
-                    <v-list-item-content>
-                      <span>{{ busline.number }}</span>
-                    </v-list-item-content>
-                    <v-list-item-icon
-                      ><v-icon>
-                        mdi-minus
-                      </v-icon></v-list-item-icon
-                    >
-                  </v-list-item>
-                </v-list>
+                    <v-tooltip top>
+                      <template v-slot:activator="{ on }">
+                        <v-btn
+                          v-on="on"
+                          class="thirdOrange pa-0 effect01"
+                          x-large
+                          block
+                          elevation="8"
+                          @click="unsubscribeBusline(busline)"
+                        >
+                          <span>{{ busline.number }}</span>
+                          <v-icon right class="mr-0">
+                            mdi-minus
+                          </v-icon>
+                        </v-btn>
+                      </template>
+                      <span>Click to unsubscribe line</span>
+                    </v-tooltip>
+                  </v-flex>
+                </v-layout>
               </v-flex>
             </v-layout>
           </v-card-text>
@@ -85,4 +127,35 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style lang="scss" scoped>
+.effect01 {
+  background-color: orange;
+  overflow: hidden;
+  position: relative;
+  transition: all 0.2s ease-in-out;
+}
+
+.effect01:after {
+  background: orange;
+
+  content: "";
+  height: 155px;
+  left: -75px;
+  opacity: 0.4;
+  position: absolute;
+  top: -50px;
+  -webkit-transform: rotate(35deg);
+  transform: rotate(35deg);
+  width: 50px;
+  transition: all 2s cubic-bezier(0.075, 0.82, 0.165, 1);
+  z-index: 1;
+}
+
+.effect01:hover:after {
+  background: orange;
+  opacity: 0;
+  left: 120%;
+  -webkit-transform: rotate(40deg);
+  transform: rotate(40deg);
+}
+</style>
