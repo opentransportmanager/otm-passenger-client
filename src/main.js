@@ -7,9 +7,11 @@ import axios from "axios";
 import { ValidationProvider, setInteractionMode } from "vee-validate";
 import "./components/validationRules";
 import authService from "./services/authService";
+import subscriptionService from "./services/subscriptionService";
 
 export const bus = new Vue();
 Vue.prototype.$authService = authService;
+Vue.prototype.$subscriptionService = subscriptionService;
 
 Vue.component("ValidationProvider", ValidationProvider);
 setInteractionMode("eager");

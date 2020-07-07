@@ -118,10 +118,10 @@ export default {
   },
   methods: {
     subscribeBusline(busline) {
-      this.$authService.subscribeBusline(busline.id);
+      this.$subscriptionService.subscribeBusline(busline.id);
     },
     unsubscribeBusline(busline) {
-      this.$authService.unsubscribeBusline(busline.id);
+      this.$subscriptionService.unsubscribeBusline(busline.id);
     }
   }
 };

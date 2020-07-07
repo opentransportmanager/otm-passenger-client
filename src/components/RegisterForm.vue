@@ -115,7 +115,7 @@ export default {
           .then(() => {
             this.dialog = false;
             this.serverErrors = "";
-            this.$authService.getSubscribes();
+            this.$subscriptionService.getSubscribes();
           })
           .catch(err => {
             this.serverErrors = Object.values(err.response.data);
