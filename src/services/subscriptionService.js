@@ -44,8 +44,8 @@ export default {
     return function(current) {
       return (
         otherArray.filter(function(other) {
-          return other.id == current.id && other.number == current.number;
-        }).length == 0
+          return other.id === current.id && other.number === current.number;
+        }).length === 0
       );
     };
   }
