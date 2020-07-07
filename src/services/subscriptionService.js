@@ -5,7 +5,6 @@ export default {
   getSubscribes: function() {
     if (store.getters.isLogged === true) {
       return axios.get("/buslines/user/subscriptions").then(({ data }) => {
-        console.log(data);
         store.dispatch("saveSubscribes", data);
         this.getUnsubscribes();
       });

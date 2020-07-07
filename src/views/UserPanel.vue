@@ -7,6 +7,9 @@
         >
           <v-card-title class="justify-center light-green darken-1 mb-5">
             Your subscriptions
+            <v-btn icon @click="refreshSubscriptions()">
+              <v-icon color="deep-orange darken-4 "> mdi-autorenew</v-icon>
+            </v-btn>
           </v-card-title>
           <v-card-text>
             <v-layout class="row wrap justify-center pa-4">
@@ -122,6 +125,9 @@ export default {
     },
     unsubscribeBusline(buslineId) {
       this.$subscriptionService.unsubscribeBusline(buslineId);
+    },
+    refreshSubscriptions() {
+      this.$subscriptionService.getSubscribes();
     }
   }
 };
