@@ -17,6 +17,9 @@ const routes = [
   {
     path: "/userPanel",
     name: "UserPanel",
+    meta: {
+      requiresAuth: true
+    },
     component: () => import("../views/UserPanel")
   }
 ];
@@ -30,7 +33,7 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
   const loggedIn = localStorage.getItem("user");
 
-  if (to.matched.some(record => record.meta.auth) && !loggedIn) {
+  if (to.matched.some(record => record.meta.requiresAuth) && !loggedIn) {
     next("/");
   } else if (
     to.matched.some(record => record.meta.requiresVisitor) &&

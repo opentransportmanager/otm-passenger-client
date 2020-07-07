@@ -1,6 +1,6 @@
 import Vue from "vue";
 import Vuex from "vuex";
-
+import router from "../router";
 Vue.use(Vuex);
 
 export default new Vuex.Store({
@@ -23,6 +23,7 @@ export default new Vuex.Store({
       localStorage.removeItem("subscribedBuslines");
       localStorage.removeItem("unsubscribedBuslines");
       state.user = null;
+      router.push("/");
     },
     saveBuslines(state, buslines) {
       state.buslines = buslines;
