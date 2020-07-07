@@ -1,13 +1,19 @@
 import axios from "axios";
 import store from "../store";
+import { bus } from "../main";
 
 export default {
   getSubscribes: function() {
     if (store.getters.isLogged === true) {
-      return axios.get("/buslines/user/subscriptions").then(({ data }) => {
-        store.dispatch("saveSubscribes", data);
-        this.getUnsubscribes();
-      });
+      return axios
+        .get("/buslines/user/subscriptions")
+        .then(({ data }) => {
+          store.dispatch("saveSubscribes", data);
+          this.getUnsubscribes();
+        })
+        .catch(() => {
+          bus.$emit("errorCommunication");
+        });
     }
   },
   getUnsubscribes: function() {
@@ -26,6 +32,9 @@ export default {
       })
       .then(() => {
         store.dispatch("subscribeBusline", buslineId);
+      })
+      .catch(() => {
+        bus.$emit("errorCommunication");
       });
   },
   unsubscribeBusline: function(buslineId) {
@@ -37,6 +46,9 @@ export default {
       })
       .then(() => {
         store.dispatch("unsubscribeBusline", buslineId);
+      })
+      .catch(() => {
+        bus.$emit("errorCommunication");
       });
   },
 
