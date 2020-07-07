@@ -1,0 +1,32 @@
+.btnEffect {
+  background-color: orange;
+  overflow: hidden;
+  position: relative;
+  transition: all 0.2s ease-in-out;
+}
+
+.btnEffect:after {
+  background: orange;
+
+  content: "";
+  height: 155px;
+  left: -75px;
+  opacity: 0.4;
+  position: absolute;
+  top: -50px;
+  -webkit-transform: rotate(35deg);
+  transform: rotate(35deg);
+  width: 50px;
+  transition: all 2s cubic-bezier(0.075, 0.82, 0.165, 1);
+  z-index: 1;
+}
+
+.btnEffect:hover:after {
+  background: orange;
+  opacity: 0;
+  left: 120%;
+  -webkit-transform: rotate(40deg);
+  transform: rotate(40deg);
+}
+
+

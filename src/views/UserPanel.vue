@@ -34,7 +34,7 @@
                       <template v-slot:activator="{ on }">
                         <v-btn
                           v-on="on"
-                          class="thirdOrange pa-0 effect01"
+                          class="thirdOrange pa-0 btnEffect"
                           x-large
                           block
                           elevation="8"
@@ -73,7 +73,7 @@
                       <template v-slot:activator="{ on }">
                         <v-btn
                           v-on="on"
-                          class="thirdOrange pa-0 effect01"
+                          class="thirdOrange pa-0 btnEffect"
                           x-large
                           block
                           elevation="8"
@@ -127,35 +127,4 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-.effect01 {
-  background-color: orange;
-  overflow: hidden;
-  position: relative;
-  transition: all 0.2s ease-in-out;
-}
-
-.effect01:after {
-  background: orange;
-
-  content: "";
-  height: 155px;
-  left: -75px;
-  opacity: 0.4;
-  position: absolute;
-  top: -50px;
-  -webkit-transform: rotate(35deg);
-  transform: rotate(35deg);
-  width: 50px;
-  transition: all 2s cubic-bezier(0.075, 0.82, 0.165, 1);
-  z-index: 1;
-}
-
-.effect01:hover:after {
-  background: orange;
-  opacity: 0;
-  left: 120%;
-  -webkit-transform: rotate(40deg);
-  transform: rotate(40deg);
-}
-</style>
+<style lang="scss" src="../styles/userPanelStyle.scss"></style>
