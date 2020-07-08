@@ -36,7 +36,6 @@
 <script>
 import BusStopInfo from "../components/BusStopInfo";
 import MapMarker from "../components/MapMarker";
-import mapService from "../services/mapService";
 import UserLocation from "../components/UserLocation";
 import BuslinesCard from "../components/BuslinesCard";
 import { mapGetters } from "vuex";
@@ -76,7 +75,7 @@ export default {
         }
       ]
     });
-    mapService.getBuslines().then(() => {});
+    this.$mapService.getBuslines().then(() => {});
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         this.getPositionSuccess,
@@ -109,7 +108,7 @@ export default {
       this.stationId = stationId;
       this.dialog = !this.dialog;
     });
-    mapService.getStations();
+    this.$mapService.getStations();
   }
 };
 </script>

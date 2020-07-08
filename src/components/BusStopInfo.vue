@@ -116,7 +116,6 @@
 
 <script>
 import { bus } from "../main.js";
-import mapService from "../services/mapService";
 
 export default {
   components: {},
@@ -136,7 +135,7 @@ export default {
     };
   },
   mounted() {
-    mapService.getBuslinesForStation(this.stationId).then(response => {
+    this.$mapService.getBuslinesForStation(this.stationId).then(response => {
       this.buslines = response;
       this.getPathsForBusline(this.buslines[0].id);
     });
@@ -144,7 +143,7 @@ export default {
   methods: {
     getPathsForBusline(buslineId) {
       if (this.departures[buslineId] === undefined) {
-        mapService
+        this.$mapService
           .getDeparturesForBusline(this.stationId, buslineId)
           .then(response => {
             this.departures[buslineId] = response;
@@ -153,7 +152,7 @@ export default {
       }
     },
     getTimetable(buslineId) {
-      mapService
+      this.$mapService
         .getTimetableForStation(this.departures[buslineId][0].path_id)
         .then(response => {
           this.timetables[buslineId] = response.data;
@@ -164,7 +163,7 @@ export default {
       this.busStopDialog = false;
       Object.assign(this.$data, this.$options.data());
       bus.$emit("openEvent", busStationName, busStationId);
-      mapService.getBuslinesForStation(busStationId).then(response => {
+      this.$mapService.getBuslinesForStation(busStationId).then(response => {
         this.buslines = response;
         for (let i = 0; i < this.buslines.length; i++) {
           if (this.buslines[i].id === buslineId) {
