@@ -113,27 +113,10 @@ export default new Vuex.Store({
 
   getters: {
     isLogged: state => !!state.user,
-    token(state) {
-      if (state.user) {
-        return state.user.token;
-      }
-      return false;
-    },
-    buslines(state) {
-      if (state.buslines) return state.buslines;
-      return null;
-    },
-    stations(state) {
-      if (state.stations) return state.stations;
-      return null;
-    },
-    subscribedBuslines(state) {
-      if (state.subscribedBuslines) return state.subscribedBuslines;
-      return null;
-    },
-    unsubscribedBuslines(state) {
-      if (state.unsubscribedBuslines) return state.unsubscribedBuslines;
-      return null;
-    }
+    token: state => (state.user ? state.user.token : false),
+    buslines: state => state.buslines ?? false,
+    stations: state => state.stations ?? null,
+    subscribedBuslines: state => state.subscribedBuslines ?? null,
+    unsubscribedBuslines: state => state.unsubscribedBuslines ?? null
   }
 });
