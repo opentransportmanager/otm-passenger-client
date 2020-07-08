@@ -20,7 +20,8 @@ export default {
     const subscribedBuslines = store.getters.subscribedBuslines;
     const buslines = store.getters.buslines;
     const unsubscribedBuslines = buslines.filter(
-      this.compareBuslineArrays(subscribedBuslines)
+      ({ number: num1 }) =>
+        !subscribedBuslines.some(({ number: num2 }) => num1 === num2)
     );
     store.dispatch("saveUnsubscribes", unsubscribedBuslines);
   },
@@ -50,15 +51,5 @@ export default {
       .catch(() => {
         bus.$emit("errorCommunication");
       });
-  },
-
-  compareBuslineArrays: function(otherArray) {
-    return function(current) {
-      return (
-        otherArray.filter(function(other) {
-          return other.id === current.id && other.number === current.number;
-        }).length === 0
-      );
-    };
   }
 };
