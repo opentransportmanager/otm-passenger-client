@@ -5,8 +5,8 @@ export default {
   props: {
     lat: { type: Number, required: true },
     lng: { type: Number, required: true },
-    stationId: { required: true },
-    nameOfStation: { required: true }
+    stationId: { type: Number, required: true },
+    nameOfStation: { type: String, required: true }
   },
   data: () => ({
     marker: null
