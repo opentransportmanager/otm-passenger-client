@@ -32,7 +32,6 @@ export default {
   computed: {
     ...mapGetters(["stations"])
   },
-  mounted() {},
   watch: {
     inputStation() {
       if (this.inputStation) {

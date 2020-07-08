@@ -1,6 +1,7 @@
 <script>
 import { bus } from "../main.js";
 import image from "../img/busStopMini.png";
+
 export default {
   props: {
     lat: { type: Number, required: true },
@@ -8,9 +9,11 @@ export default {
     stationId: { type: Number, required: true },
     nameOfStation: { type: String, required: true }
   },
-  data: () => ({
-    marker: null
-  }),
+  data() {
+    return {
+      marker: null
+    };
+  },
   mounted() {
     this.$parent.getMap(map => {
       this.marker = new window.google.maps.Marker({
