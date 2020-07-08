@@ -4,10 +4,7 @@
       style="z-index: 3; position: absolute"
       v-if="show"
       elevation="0"
-      :class="[
-        'col-3 pa-0 pb-2 transparent leftTop',
-        { 'col-8 order-2': $vuetify.breakpoint.smAndDown }
-      ]"
+      class="col-8 col-sm-7 col-md-6 col-lg-4 pa-0 pb-2 transparent leftTop"
     >
       <v-container>
         <v-row no-gutters v-if="!isLogged">
