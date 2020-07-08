@@ -30,6 +30,22 @@ export default {
     };
   },
   created() {
+    const buslines = localStorage.getItem("buslines");
+    if (buslines) {
+      const buslinesData = JSON.parse(buslines);
+      this.$store.commit("saveBuslines", buslinesData);
+    }
+    const userDetails = localStorage.getItem("user");
+    const subscribedBuslines = localStorage.getItem("subscribedBuslines");
+    const unsubscribedBuslines = localStorage.getItem("unsubscribedBuslines");
+    if (userDetails) {
+      const userData = JSON.parse(userDetails);
+      const subscribesData = JSON.parse(subscribedBuslines);
+      const unsubscribesData = JSON.parse(unsubscribedBuslines);
+      this.$store.commit("setUserData", userData);
+      this.$store.commit("saveSubscribes", subscribesData);
+      this.$store.commit("saveUnsubscribes", unsubscribesData);
+    }
     bus.$on("errorCommunication", () => {
       this.info = "There was something wrong! Please try again later";
       this.isError = true;
