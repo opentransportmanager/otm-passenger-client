@@ -10,21 +10,23 @@ export default {
     lat: { type: Number, required: true },
     lng: { type: Number, required: true }
   },
-  data: () => ({
-    infoW: null
-  }),
+  data() {
+    return {
+      infoWindow: null
+    };
+  },
   mounted() {
     this.$parent.getMap(map => {
-      (this.infoW = new window.google.maps.InfoWindow({
+      (this.infoWindow = new window.google.maps.InfoWindow({
         position: { lat: this.lat, lng: this.lng },
         content: this.$el,
         disableAutoPan: true
       })),
-        this.infoW.open(map);
+        this.infoWindow.open(map);
     });
   },
   beforeDestroy() {
-    this.infoW.close();
+    this.infoWindow.close();
   }
 };
 </script>
