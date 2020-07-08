@@ -122,8 +122,8 @@ export default {
   components: {},
   name: "Map",
   props: {
-    stationId: { required: false },
-    stationName: { required: false }
+    stationId: { required: true, type: Number },
+    stationName: { required: true, type: String }
   },
   data() {
     return {
