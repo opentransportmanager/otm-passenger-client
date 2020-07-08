@@ -26,8 +26,8 @@
         </user-location>
       </div>
     </v-row>
-    <v-btn top right absolute @click="show = !show" style="z-index: 3" icon
-      ><v-icon x-large color="dark">mdi-bus-marker</v-icon>
+    <v-btn top right absolute @click="show = !show" style="z-index: 3" icon>
+      <v-icon x-large color="dark">mdi-bus-marker</v-icon>
     </v-btn>
     <buslines-card :show="show" />
   </v-container>
@@ -93,6 +93,7 @@ export default {
     },
     getMap(callback) {
       let vm = this;
+
       function checkForMap() {
         if (vm.map) callback(vm.map);
         else setTimeout(checkForMap, 200);
@@ -103,7 +104,7 @@ export default {
   },
   created() {
     bus.$on("openEvent", (stationName, stationId) => {
-      if (this.dialog === true) this.dialog = !this.dialog;
+      this.dialog === true ? (this.dialog = false) : {};
       this.stationName = stationName;
       this.stationId = stationId;
       this.dialog = !this.dialog;
