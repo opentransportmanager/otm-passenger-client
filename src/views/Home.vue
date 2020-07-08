@@ -19,7 +19,7 @@
           :name-of-station="station.name"
         ></map-marker>
         <user-location
-          v-if="position.longitude != NaN"
+          v-if="position.longitude != NaN && position.latitude != NaN"
           :lat="position.latitude"
           :lng="position.longitude"
         >
