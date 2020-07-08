@@ -23,7 +23,6 @@ export default new Vuex.Store({
       localStorage.removeItem("subscribedBuslines");
       localStorage.removeItem("unsubscribedBuslines");
       state.user = null;
-      router.push("/");
     },
     saveBuslines(state, buslines) {
       state.buslines = buslines;
@@ -84,6 +83,7 @@ export default new Vuex.Store({
     },
     logout({ commit }) {
       commit("clearUserData");
+      router.currentRoute.path !== "/" ? router.push("/") : {};
     },
     saveBuslines({ commit }, data) {
       commit("saveBuslines", data);
