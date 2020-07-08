@@ -182,13 +182,4 @@ export default {
 };
 </script>
 
-<style scoped>
-.choosen {
-  background-color: grey;
-  color: grey;
-}
-.scrollable {
-  overflow-y: auto;
-  max-height: 30vh;
-}
-</style>
+<style lang="scss" src="../styles/busStopInfoStyle.scss"></style>
