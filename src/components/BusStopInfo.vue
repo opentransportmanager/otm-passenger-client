@@ -134,7 +134,7 @@ export default {
   },
   mounted() {
     this.$mapService.getBuslinesForStation(this.stationId).then(response => {
-      this.buslines = response;
+      this.buslines = response.data;
       this.getPathsForBusline(this.buslines[0].id);
     });
   },
@@ -161,7 +161,7 @@ export default {
       Object.assign(this.$data, this.$options.data());
       this.$emit("changeBusStation", busStationName, busStationId);
       this.$mapService.getBuslinesForStation(busStationId).then(response => {
-        this.buslines = response;
+        this.buslines = response.data;
         for (let i = 0; i < this.buslines.length; i++) {
           if (this.buslines[i].id === buslineId) {
             this.activeTab = i;
