@@ -34,11 +34,8 @@ export default {
   },
   getStations() {
     return axios
-      .get("/stations")
+      .get("/stations?sort=name")
       .then(({ data }) => {
-        data.sort(function(a, b) {
-          return a.name.localeCompare(b.name);
-        });
         store.dispatch("saveStations", data);
       })
       .catch(() => {
