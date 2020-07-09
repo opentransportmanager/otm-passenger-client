@@ -60,7 +60,12 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["stations"])
+    ...mapGetters(["stations", "currentStation"])
+  },
+  watch: {
+    currentStation() {
+      this.openBusStop(this.currentStation.name, this.currentStation.id);
+    }
   },
   mounted() {
     this.map = new window.google.maps.Map(this.$refs["map"], {

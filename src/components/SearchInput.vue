@@ -19,7 +19,6 @@
 </template>
 
 <script>
-import { bus } from "../main.js";
 import { mapGetters } from "vuex";
 export default {
   name: "SearchInput",
@@ -35,7 +34,7 @@ export default {
   watch: {
     inputStation() {
       if (this.inputStation) {
-        bus.$emit("openEvent", this.inputStation.name, this.inputStation.id);
+        this.$store.dispatch("changeCurrentStation", this.inputStation);
       }
     }
   }

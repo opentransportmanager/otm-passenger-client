@@ -10,7 +10,8 @@ export default new Vuex.Store({
     stations: null,
     subscribedBuslines: [],
     unsubscribedBuslines: [],
-    errorOccurred: false
+    errorOccurred: false,
+    currentStation: null
   },
 
   mutations: {
@@ -75,6 +76,9 @@ export default new Vuex.Store({
     },
     showError(state) {
       state.errorOccurred = !state.errorOccurred;
+    },
+    changeCurrentStation(state, data) {
+      state.currentStation = data;
     }
   },
 
@@ -115,6 +119,9 @@ export default new Vuex.Store({
     },
     showError({ commit }) {
       commit("showError");
+    },
+    changeCurrentStation({ commit }, station) {
+      commit("changeCurrentStation", station);
     }
   },
 
@@ -125,6 +132,7 @@ export default new Vuex.Store({
     stations: state => state.stations ?? null,
     subscribedBuslines: state => state.subscribedBuslines ?? null,
     unsubscribedBuslines: state => state.unsubscribedBuslines ?? null,
-    errorOccurred: state => state.errorOccurred
+    errorOccurred: state => state.errorOccurred,
+    currentStation: state => state.currentStation ?? null
   }
 });
