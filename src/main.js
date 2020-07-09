@@ -10,7 +10,6 @@ import authService from "./services/authService";
 import subscriptionService from "./services/subscriptionService";
 import mapService from "./services/mapService";
 
-export const bus = new Vue();
 Vue.prototype.$authService = authService;
 Vue.prototype.$subscriptionService = subscriptionService;
 Vue.prototype.$mapService = mapService;
