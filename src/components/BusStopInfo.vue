@@ -115,7 +115,7 @@
 </template>
 
 <script>
-import { bus } from "../main.js";
+// import { bus } from "../main.js";
 
 export default {
   components: {},
@@ -160,9 +160,8 @@ export default {
         });
     },
     changeBusStation(busStationName, busStationId, buslineId) {
-      this.busStopDialog = false;
       Object.assign(this.$data, this.$options.data());
-      bus.$emit("openEvent", busStationName, busStationId);
+      this.$emit("changeBusStation", busStationName, busStationId);
       this.$mapService.getBuslinesForStation(busStationId).then(response => {
         this.buslines = response;
         for (let i = 0; i < this.buslines.length; i++) {

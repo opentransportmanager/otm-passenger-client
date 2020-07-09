@@ -5,6 +5,7 @@
       <bus-stop-info
         v-if="dialog"
         @closeDialog="dialog = false"
+        @changeBusStation="changeBusStation"
         :station-name="stationName"
         :station-id="stationId"
       />
@@ -85,6 +86,10 @@ export default {
   },
 
   methods: {
+    changeBusStation(stationName, stationId) {
+      this.stationName = stationName;
+      this.stationId = stationId;
+    },
     getPositionSuccess(pos) {
       this.position = pos.coords;
     },
@@ -104,7 +109,6 @@ export default {
   },
   created() {
     bus.$on("openEvent", (stationName, stationId) => {
-      this.dialog === true ? (this.dialog = false) : {};
       this.stationName = stationName;
       this.stationId = stationId;
       this.dialog = !this.dialog;
