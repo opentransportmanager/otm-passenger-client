@@ -1,5 +1,4 @@
 <script>
-import { bus } from "../main.js";
 import image from "../img/busStopMini.png";
 
 export default {
@@ -22,7 +21,7 @@ export default {
         icon: image
       });
       this.marker.addListener("click", () => {
-        bus.$emit("openEvent", this.nameOfStation, this.stationId);
+        this.$emit("openEvent", this.nameOfStation, this.stationId);
       });
     });
   },

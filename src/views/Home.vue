@@ -5,7 +5,7 @@
       <bus-stop-info
         v-if="dialog"
         @closeDialog="dialog = false"
-        @changeBusStation="changeBusStation"
+        @changeBusStation="changeBusStopProps"
         :station-name="stationName"
         :station-id="stationId"
       />
@@ -18,6 +18,7 @@
           :lng="station.position.lng"
           :station-id="station.id"
           :name-of-station="station.name"
+          @openEvent="openBusStop"
         ></map-marker>
         <user-location
           v-if="position.longitude != NaN && position.latitude != NaN"
@@ -40,8 +41,6 @@ import MapMarker from "../components/MapMarker";
 import UserLocation from "../components/UserLocation";
 import BuslinesCard from "../components/BuslinesCard";
 import { mapGetters } from "vuex";
-
-import { bus } from "../main.js";
 
 export default {
   name: "Home",
@@ -86,9 +85,13 @@ export default {
   },
 
   methods: {
-    changeBusStation(stationName, stationId) {
+    changeBusStopProps(stationName, stationId) {
       this.stationName = stationName;
       this.stationId = stationId;
+    },
+    openBusStop(stationName, stationId) {
+      this.changeBusStopProps(stationName, stationId);
+      this.dialog = !this.dialog;
     },
     getPositionSuccess(pos) {
       this.position = pos.coords;
@@ -108,11 +111,6 @@ export default {
     }
   },
   created() {
-    bus.$on("openEvent", (stationName, stationId) => {
-      this.stationName = stationName;
-      this.stationId = stationId;
-      this.dialog = !this.dialog;
-    });
     this.$mapService.getStations();
   }
 };
