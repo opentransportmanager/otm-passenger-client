@@ -144,7 +144,7 @@ export default {
         this.$mapService
           .getDeparturesForBusline(this.stationId, buslineId)
           .then(response => {
-            this.departures[buslineId] = response;
+            this.departures[buslineId] = response.data;
             this.$forceUpdate();
           });
       }
