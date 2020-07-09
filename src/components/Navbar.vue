@@ -92,9 +92,7 @@ export default {
       sideNav: false,
       links: [
         { icon: "", text: "User Panel", route: "/userPanel", reqLog: true },
-        { icon: "", text: "About", route: "/about", reqLog: false },
-        { icon: "", text: "Link3", route: "/", reqLog: true },
-        { icon: "", text: "Link4", route: "/", reqLog: false }
+        { icon: "", text: "About", route: "/about", reqLog: false }
       ]
     };
   },
