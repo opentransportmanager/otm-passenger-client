@@ -3,7 +3,7 @@ import store from "../store";
 import { bus } from "../main";
 
 export default {
-  getSubscribes: function() {
+  getSubscribes() {
     if (store.getters.isLogged === true) {
       return axios
         .get("/buslines/user/subscriptions")
@@ -16,7 +16,7 @@ export default {
         });
     }
   },
-  getUnsubscribes: function() {
+  getUnsubscribes() {
     const subscribedBuslines = store.getters.subscribedBuslines;
     const buslines = store.getters.buslines;
     const unsubscribedBuslines = buslines.filter(
@@ -26,7 +26,7 @@ export default {
     store.dispatch("saveUnsubscribes", unsubscribedBuslines);
   },
 
-  subscribeBusline: function(buslineId) {
+  subscribeBusline(buslineId) {
     return axios
       .post("/buslines/subscribe", {
         busline_id: buslineId
@@ -38,7 +38,7 @@ export default {
         bus.$emit("errorCommunication");
       });
   },
-  unsubscribeBusline: function(buslineId) {
+  unsubscribeBusline(buslineId) {
     return axios
       .delete("/buslines/unsubscribe", {
         data: {

@@ -3,7 +3,7 @@ import store from "../store";
 import _ from "lodash";
 import { bus } from "../main.js";
 export default {
-  getDeparturesForBusline: function(stationId, buslineId) {
+  getDeparturesForBusline(stationId, buslineId) {
     return axios
       .get(`stations/${stationId}/paths/${buslineId}`)
       .then(response => {
@@ -13,7 +13,7 @@ export default {
         bus.$emit("errorCommunication");
       });
   },
-  getBuslinesForStation: function(stationId) {
+  getBuslinesForStation(stationId) {
     return axios
       .get(`/stations/${stationId}/paths`)
       .then(response => {
@@ -23,7 +23,7 @@ export default {
         bus.$emit("errorCommunication");
       });
   },
-  getBuslines: function() {
+  getBuslines() {
     return axios
       .get(`/buslines`)
       .then(({ data }) => {
@@ -34,7 +34,7 @@ export default {
         bus.$emit("errorCommunication");
       });
   },
-  getStations: function() {
+  getStations() {
     return axios
       .get("/stations")
       .then(({ data }) => {
@@ -47,7 +47,7 @@ export default {
         bus.$emit("errorCommunication");
       });
   },
-  getTimetableForStation: function(pathId) {
+  getTimetableForStation(pathId) {
     return axios.get(`/paths/${pathId}/stations`).catch(() => {
       bus.$emit("errorCommunication");
     });

@@ -2,7 +2,7 @@ import axios from "axios";
 import store from "../store";
 
 export default {
-  login: function(email, password) {
+  login(email, password) {
     return axios
       .post("/login", {
         email: email,
@@ -13,7 +13,7 @@ export default {
       });
   },
 
-  register: function(name, email, password) {
+  register(name, email, password) {
     return axios
       .post("/register", {
         name: name,
@@ -25,7 +25,7 @@ export default {
       });
   },
 
-  logout: function() {
+  logout() {
     store.dispatch("logout");
   }
 };
