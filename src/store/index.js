@@ -9,7 +9,8 @@ export default new Vuex.Store({
     buslines: null,
     stations: null,
     subscribedBuslines: [],
-    unsubscribedBuslines: []
+    unsubscribedBuslines: [],
+    errorOccurred: false
   },
 
   mutations: {
@@ -71,6 +72,9 @@ export default new Vuex.Store({
         "unsubscribedBuslines",
         JSON.stringify(state.unsubscribedBuslines)
       );
+    },
+    showError(state) {
+      state.errorOccurred = !state.errorOccurred;
     }
   },
 
@@ -108,6 +112,9 @@ export default new Vuex.Store({
         commit("unsubscribeBusline", buslineId);
         commit("updateLocalStorage");
       }, 15);
+    },
+    showError({ commit }) {
+      commit("showError");
     }
   },
 
@@ -117,6 +124,7 @@ export default new Vuex.Store({
     buslines: state => state.buslines ?? false,
     stations: state => state.stations ?? null,
     subscribedBuslines: state => state.subscribedBuslines ?? null,
-    unsubscribedBuslines: state => state.unsubscribedBuslines ?? null
+    unsubscribedBuslines: state => state.unsubscribedBuslines ?? null,
+    errorOccurred: state => state.errorOccurred
   }
 });

@@ -1,6 +1,5 @@
 import axios from "axios";
 import store from "../store";
-import { bus } from "../main";
 
 export default {
   getSubscribes() {
@@ -12,7 +11,7 @@ export default {
           this.getUnsubscribes();
         })
         .catch(() => {
-          bus.$emit("errorCommunication");
+          store.dispatch("showError");
         });
     }
   },
@@ -35,7 +34,7 @@ export default {
         store.dispatch("subscribeBusline", buslineId);
       })
       .catch(() => {
-        bus.$emit("errorCommunication");
+        store.dispatch("showError");
       });
   },
   unsubscribeBusline(buslineId) {
@@ -49,7 +48,7 @@ export default {
         store.dispatch("unsubscribeBusline", buslineId);
       })
       .catch(() => {
-        bus.$emit("errorCommunication");
+        store.dispatch("showError");
       });
   }
 };

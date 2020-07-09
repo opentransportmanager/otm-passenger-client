@@ -1,7 +1,6 @@
 import axios from "axios";
 import store from "../store";
 import _ from "lodash";
-import { bus } from "../main.js";
 export default {
   getDeparturesForBusline(stationId, buslineId) {
     return axios
@@ -10,7 +9,7 @@ export default {
         return (response.data = _.orderBy(response.data, "departure_time"));
       })
       .catch(() => {
-        bus.$emit("errorCommunication");
+        store.dispatch("showError");
       });
   },
   getBuslinesForStation(stationId) {
@@ -20,7 +19,7 @@ export default {
         return (response.data = _.orderBy(response.data, "busline_number"));
       })
       .catch(() => {
-        bus.$emit("errorCommunication");
+        store.dispatch("showError");
       });
   },
   getBuslines() {
@@ -31,7 +30,7 @@ export default {
         store.dispatch("saveBuslines", data);
       })
       .catch(() => {
-        bus.$emit("errorCommunication");
+        store.dispatch("showError");
       });
   },
   getStations() {
@@ -44,12 +43,12 @@ export default {
         store.dispatch("saveStations", data);
       })
       .catch(() => {
-        bus.$emit("errorCommunication");
+        store.dispatch("showError");
       });
   },
   getTimetableForStation(pathId) {
     return axios.get(`/paths/${pathId}/stations`).catch(() => {
-      bus.$emit("errorCommunication");
+      store.dispatch("showError");
     });
   }
 };

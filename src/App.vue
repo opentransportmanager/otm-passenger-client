@@ -20,7 +20,8 @@
 
 <script>
 import Navbar from "@/components/Navbar";
-import { bus } from "./main";
+import { mapGetters } from "vuex";
+
 export default {
   components: { Navbar },
   data() {
@@ -28,6 +29,15 @@ export default {
       isError: false,
       info: ""
     };
+  },
+  computed: {
+    ...mapGetters(["errorOccurred"])
+  },
+  watch: {
+    errorOccurred() {
+      this.info = "There was something wrong! Please try again later";
+      this.isError = true;
+    }
   },
   created() {
     const buslines = localStorage.getItem("buslines");
@@ -46,10 +56,6 @@ export default {
       this.$store.commit("saveSubscribes", subscribesData);
       this.$store.commit("saveUnsubscribes", unsubscribesData);
     }
-    bus.$on("errorCommunication", () => {
-      this.info = "There was something wrong! Please try again later";
-      this.isError = true;
-    });
   }
 };
 </script>
