@@ -1,5 +1,6 @@
 import axios from "axios";
 import store from "../store";
+
 export default {
   getDeparturesForBusline(stationId, buslineId) {
     return axios.get(`stations/${stationId}/paths/${buslineId}`).catch(() => {
