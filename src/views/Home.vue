@@ -55,7 +55,6 @@ export default {
       stationId: null,
       show: false,
       markerCluster: null,
-
       position: { longitude: NaN, latitude: NaN }
     };
   },
@@ -104,15 +103,9 @@ export default {
     getPositionError(err) {
       console.warn(`ERROR(${err.code}): ${err.message}`);
     },
-    getMap(callback) {
-      let vm = this;
-
-      function checkForMap() {
-        if (vm.map) callback(vm.map);
-        else setTimeout(checkForMap, 200);
-      }
-
-      checkForMap();
+    async getMap(callback) {
+      await this.map;
+      callback(this.map);
     }
   },
   created() {

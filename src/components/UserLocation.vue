@@ -9,7 +9,7 @@ export default {
     marker: null
   }),
   mounted() {
-    this.$parent.getMap(map => {
+    this.$parent.getMap(async map => {
       this.marker = new window.google.maps.Marker({
         position: { lat: this.lat, lng: this.lng },
         map: map,
