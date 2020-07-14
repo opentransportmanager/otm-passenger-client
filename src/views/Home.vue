@@ -20,11 +20,7 @@
           :name-of-station="station.name"
           @openEvent="openBusStop"
         ></map-marker>
-        <user-location
-          v-if="position.longitude != NaN && position.latitude != NaN"
-          :lat="position.latitude"
-          :lng="position.longitude"
-        >
+        <user-location :lat="position.latitude" :lng="position.longitude">
         </user-location>
       </div>
     </v-row>
@@ -80,12 +76,9 @@ export default {
       ]
     });
     this.$mapService.getBuslines();
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        this.getPositionSuccess,
-        this.getPositionError
-      );
-    }
+    navigator.geolocation.watchPosition(position => {
+      this.position = position.coords;
+    });
   },
 
   methods: {
@@ -96,12 +89,6 @@ export default {
     openBusStop(stationName, stationId) {
       this.changeBusStopProps(stationName, stationId);
       this.dialog = !this.dialog;
-    },
-    getPositionSuccess(pos) {
-      this.position = pos.coords;
-    },
-    getPositionError(err) {
-      console.warn(`ERROR(${err.code}): ${err.message}`);
     },
     async getMap(callback) {
       await this.map;
