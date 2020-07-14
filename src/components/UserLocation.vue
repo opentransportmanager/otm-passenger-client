@@ -12,7 +12,7 @@ export default {
     };
   },
   computed: {
-    latLng: function() {
+    latLng() {
       return { lat: this.lat, lng: this.lng };
     }
   },
