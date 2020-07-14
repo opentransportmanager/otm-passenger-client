@@ -4,7 +4,7 @@
       style="z-index: 3; position: absolute"
       v-if="show"
       elevation="0"
-      class="col-8 col-sm-7 col-md-6 col-lg-4 pa-0 pb-2 transparent buslineCard"
+      class="col-8 col-sm-7 col-md-6 col-lg-4 pa-0 pb-2 transparent buslineCard "
     >
       <v-container>
         <v-row no-gutters v-if="!isLogged">
@@ -13,8 +13,10 @@
             x-small
             v-for="busline in buslines"
             :key="busline.number"
-            color="#FFBF69"
-            class="ma-1 ma-sm-2"
+            :class="[
+              { activeButton: currentBuslineDisplaying === busline },
+              'buslineButton ma-1 ma-sm-2'
+            ]"
             @click="showPath(busline)"
             >{{ busline.number }}
           </v-btn>
@@ -31,8 +33,10 @@
             x-small
             v-for="busline in subscribedBuslines"
             :key="busline.number"
-            color="#FFBF69"
-            class="ma-1 ma-sm-2"
+            :class="[
+              { activeButton: currentBuslineDisplaying === busline },
+              'buslineButton ma-1 ma-sm-2'
+            ]"
             @click="showPath(busline)"
             >{{ busline.number }}
           </v-btn>
@@ -54,8 +58,10 @@
             x-small
             v-for="busline in unsubscribedBuslines"
             :key="busline.number"
-            color="#FFBF69"
-            class="ma-1 ma-sm-2"
+            :class="[
+              { activeButton: currentBuslineDisplaying === busline },
+              'buslineButton ma-1 ma-sm-2'
+            ]"
             @click="showPath(busline)"
             >{{ busline.number }}
           </v-btn>
@@ -95,7 +101,7 @@ export default {
         this.currentBuslineDisplaying = busline;
         this.$emit("sendPath", busline.paths[0].id);
       } else {
-        console.log("Ta linia nie ma jeszcze dodanej ścieżki");
+        console.log("The line has no path yet");
       }
     }
   }
