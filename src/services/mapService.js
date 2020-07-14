@@ -41,16 +41,16 @@ export default {
   getPathToDraw(pathId) {
     return axios.get(`paths/${pathId}/stations`).then(response => {
       const stations = response.data;
-      const endStation = stations[stations.length - 1].position;
-      const startStation = stations[0].position;
-      const waypoints = [];
-      for (let i = 1; i < stations.length - 1; i++) {
-        waypoints[i - 1] = { location: stations[i].position, stopover: true };
-      }
+      const endStation = stations.pop().position;
+      const startStation = stations.shift().position;
+      stations.forEach(
+        (station, index) =>
+          (stations[index] = { location: station.position, stopover: true })
+      );
       return {
         startStation: startStation,
         endStation: endStation,
-        waypoints: waypoints
+        waypoints: stations
       };
     });
   },

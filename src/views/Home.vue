@@ -87,7 +87,6 @@ export default {
   methods: {
     drawRoute(pathId) {
       this.$mapService.getPathToDraw(pathId).then(response => {
-        console.log(response);
         this.$mapService.drawRoute(
           this.directionsService,
           this.directionsDisplay,
