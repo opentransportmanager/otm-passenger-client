@@ -4,7 +4,7 @@
       style="z-index: 3; position: absolute"
       v-if="show"
       elevation="0"
-      class="col-8 col-sm-7 col-md-6 col-lg-4 pa-0 pb-2 transparent leftTop"
+      class="col-8 col-sm-7 col-md-6 col-lg-4 pa-0 pb-2 transparent buslineCard"
     >
       <v-container>
         <v-row no-gutters v-if="!isLogged">
@@ -80,4 +80,4 @@ export default {
 };
 </script>
 
-<style lang="scss" src="../styles/homeStyle.scss"></style>
+<style lang="scss" src="../styles/buslinesCardStyle.scss"></style>
