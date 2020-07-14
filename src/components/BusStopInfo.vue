@@ -52,8 +52,8 @@
                               color="#ffd391"
                               class="text-center"
                               @click="getTimetable(busline.id)"
-                              >Timetable</v-expansion-panel-header
-                            >
+                              >Timetable
+                            </v-expansion-panel-header>
                             <v-expansion-panel-content
                               v-cloak
                               color="#ffd699"
@@ -162,12 +162,10 @@ export default {
       this.$emit("changeBusStation", busStationName, busStationId);
       this.$mapService.getBuslinesForStation(busStationId).then(response => {
         this.buslines = response.data;
-        for (let i = 0; i < this.buslines.length; i++) {
-          if (this.buslines[i].id === buslineId) {
-            this.activeTab = i;
-            break;
-          }
-        }
+
+        this.activeTab = this.buslines.findIndex(
+          busline => busline.id === buslineId
+        );
         this.getPathsForBusline(
           this.buslines[this.activeTab === null ? 0 : this.activeTab].id
         );
