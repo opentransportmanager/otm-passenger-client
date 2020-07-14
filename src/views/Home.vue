@@ -86,15 +86,19 @@ export default {
   },
   methods: {
     drawRoute(pathId) {
-      this.$mapService.getPathToDraw(pathId).then(response => {
-        this.$mapService.drawRoute(
-          this.directionsService,
-          this.directionsDisplay,
-          response.startStation,
-          response.endStation,
-          response.waypoints
-        );
-      });
+      if (pathId === "erase") {
+        this.directionsDisplay.setDirections({ routes: [] });
+      } else {
+        this.$mapService.getPathToDraw(pathId).then(response => {
+          this.$mapService.drawRoute(
+            this.directionsService,
+            this.directionsDisplay,
+            response.startStation,
+            response.endStation,
+            response.waypoints
+          );
+        });
+      }
     },
     changeBusStopProps(stationName, stationId) {
       this.stationName = stationName;

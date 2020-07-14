@@ -72,6 +72,11 @@ export default {
   props: {
     show: { required: false }
   },
+  data() {
+    return {
+      currentBuslineDisplaying: null
+    };
+  },
   computed: {
     ...mapGetters([
       "buslines",
@@ -83,7 +88,13 @@ export default {
   methods: {
     showPath(busline) {
       if (busline.paths[0] !== undefined) {
-        this.$emit("sendPath", busline.paths[0].id);
+        if (this.currentBuslineDisplaying === busline) {
+          this.currentBuslineDisplaying = null;
+          this.$emit("sendPath", "erase");
+        } else {
+          this.currentBuslineDisplaying = busline;
+          this.$emit("sendPath", busline.paths[0].id);
+        }
       } else {
         console.log("Ta linia nie ma jeszcze dodanej ścieżki");
       }
