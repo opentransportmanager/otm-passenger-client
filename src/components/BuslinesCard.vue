@@ -15,6 +15,7 @@
             :key="busline.number"
             color="#FFBF69"
             class="ma-1 ma-sm-2"
+            @click="showPath(busline)"
             >{{ busline.number }}
           </v-btn>
         </v-row>
@@ -76,6 +77,15 @@ export default {
       "unsubscribedBuslines",
       "isLogged"
     ])
+  },
+  methods: {
+    showPath(busline) {
+      if (busline.paths[0] !== undefined) {
+        this.$emit("sendPath", busline.paths[0].id);
+      } else {
+        console.log("Ta linia nie ma jeszcze dodanej ścieżki");
+      }
+    }
   }
 };
 </script>
