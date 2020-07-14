@@ -74,7 +74,10 @@ export default {
           directionsDisplay.setOptions({ suppressMarkers: true });
           directionsDisplay.setDirections(response);
         } else {
-          window.alert("Directions request failed due to " + status);
+          window.alert(
+            "Directions request failed, try again later. " +
+              "If the problem repeats feel free contact with us"
+          );
         }
       }
     );
