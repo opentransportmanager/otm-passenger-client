@@ -33,6 +33,7 @@
             :key="busline.number"
             color="#FFBF69"
             class="ma-1 ma-sm-2"
+            @click="showPath(busline)"
             >{{ busline.number }}
           </v-btn>
         </v-row>
@@ -55,6 +56,7 @@
             :key="busline.number"
             color="#FFBF69"
             class="ma-1 ma-sm-2"
+            @click="showPath(busline)"
             >{{ busline.number }}
           </v-btn>
         </v-row>
