@@ -32,7 +32,7 @@
             color="#FFBF69"
           >
             <v-tab
-              style="min-width: 5vh; max-width: 8vh"
+              class="tab"
               v-for="busline in buslines"
               :key="busline.id"
               @click.native="getPathsForBusline(busline.id)"
@@ -41,7 +41,7 @@
             </v-tab>
 
             <v-tabs-items v-model="activeTab">
-              <v-tab-item v-for="busline in buslines" :key="busline.id">
+              <v-tab-item v-for="busline in buslines" :key="busline.name">
                 <v-container>
                   <v-layout class="row wrap">
                     <v-flex class="xs12 pa-8">
@@ -61,7 +61,7 @@
                             >
                               <v-btn
                                 v-for="busStop in timetables[busline.id]"
-                                :key="busStop.name"
+                                :key="busStop.id"
                                 min-width="100%"
                                 max-width="100%"
                                 text
@@ -99,7 +99,7 @@
                         {{ departure.departure_time }}
                       </span>
                       <br />
-                      <span class="pa-0" style="font-size: 60%">
+                      <span class="pa-0 departureGroup">
                         {{ departure.group.name }}
                       </span>
                     </v-flex>

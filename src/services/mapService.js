@@ -13,7 +13,7 @@ export default {
   },
   getBuslines() {
     return axios
-      .get(`/buslines?sort=number`)
+      .get(`/buslines?sort=number&include=paths`)
       .then(({ data }) => {
         store.dispatch("saveBuslines", data);
       })

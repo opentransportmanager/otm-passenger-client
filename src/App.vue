@@ -1,5 +1,5 @@
 <template>
-  <v-app style="background-color: lightgray">
+  <v-app class="appBgColor">
     <Navbar />
     <v-main>
       <v-snackbar
@@ -59,3 +59,5 @@ export default {
   }
 };
 </script>
+
+<style lang="scss" src="./styles/appStyle.scss"></style>

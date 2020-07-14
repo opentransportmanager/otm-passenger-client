@@ -21,7 +21,6 @@ export default {
         icon: image
       });
       this.marker.addListener("click", () => {
-        // this.$emit("openEvent", this.nameOfStation, this.stationId);
         this.$store.dispatch("changeCurrentStation", {
           id: this.stationId,
           name: this.nameOfStation

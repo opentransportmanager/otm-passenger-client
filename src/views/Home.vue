@@ -80,7 +80,7 @@ export default {
         }
       ]
     });
-    this.$mapService.getBuslines().then(() => {});
+    this.$mapService.getBuslines();
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         this.getPositionSuccess,
