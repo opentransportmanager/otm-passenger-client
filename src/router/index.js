@@ -13,6 +13,14 @@ const routes = [
     path: "/about",
     name: "About",
     component: () => import("../views/About.vue")
+  },
+  {
+    path: "/userPanel",
+    name: "UserPanel",
+    meta: {
+      requiresAuth: true
+    },
+    component: () => import("../views/UserPanel")
   }
 ];
 
@@ -25,13 +33,13 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
   const loggedIn = localStorage.getItem("user");
 
-  if (to.matched.some(record => record.meta.auth) && !loggedIn) {
-    next("/login");
+  if (to.matched.some(record => record.meta.requiresAuth) && !loggedIn) {
+    next("/");
   } else if (
     to.matched.some(record => record.meta.requiresVisitor) &&
     loggedIn
   ) {
-    next("/home");
+    next("/");
   } else next();
 });
 

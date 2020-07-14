@@ -1,6 +1,18 @@
 .map {
-  background-color: #cbf7bf;
-  min-height: 80%;
+  @media (min-width: 1265px) {
+    min-height: 100%;
+  }
+  @media (max-width: 1264px) {
+    min-height: 100%;
+  }
+  z-index: 0;
 }
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .6s;
+}
+.fade-enter, .fade-leave-active {
+  opacity: 0;
+}
+
 
 

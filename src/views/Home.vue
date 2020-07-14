@@ -2,59 +2,101 @@
 <template>
   <v-container fluid fill-height class="pa-0">
     <v-row class="fill-height" no-gutters>
-      <v-card
-        :class="[
-          'col-1 pa-0 pb-2 elevation-7',
-          { 'col-12 order-2': $vuetify.breakpoint.mdAndDown }
-        ]"
-      >
-        <v-container>
-          <v-row no-gutters>
-            <v-btn
-              rounded
-              small
-              v-for="busline in buslines"
-              :key="busline.number"
-              @click="busline.check = !busline.check"
-              :color="busline.check ? '#FF9F1C' : '#FFBF69'"
-              :class="['ma-1 ma-sm-2', { 'white--text': busline.check }]"
-              >{{ busline.number }}
-            </v-btn>
-          </v-row>
-        </v-container>
-      </v-card>
-
-      <div class="col-12 col-lg-11 map">
-        <bus-stop-info />
+      <bus-stop-info
+        v-if="dialog"
+        @closeDialog="dialog = false"
+        @changeBusStation="changeBusStopProps"
+        :station-name="stationName"
+        :station-id="stationId"
+      />
+      <div class="col-12 map" ref="map">
+        <map-marker
+          style="display: none"
+          v-for="station in stations"
+          :key="station.id"
+          :lat="station.position.lat"
+          :lng="station.position.lng"
+          :station-id="station.id"
+          :name-of-station="station.name"
+          @openEvent="openBusStop"
+        ></map-marker>
+        <user-location :lat="position.latitude" :lng="position.longitude">
+        </user-location>
       </div>
     </v-row>
+    <v-btn top right absolute @click="show = !show" style="z-index: 3" icon>
+      <v-icon x-large color="dark">mdi-bus-marker</v-icon>
+    </v-btn>
+    <buslines-card :show="show" />
   </v-container>
 </template>
 
 <script>
 import BusStopInfo from "../components/BusStopInfo";
+import MapMarker from "../components/MapMarker";
+import UserLocation from "../components/UserLocation";
+import BuslinesCard from "../components/BuslinesCard";
+import { mapGetters } from "vuex";
+
 export default {
   name: "Home",
-  components: { BusStopInfo },
+  components: { BuslinesCard, UserLocation, MapMarker, BusStopInfo },
+
   data() {
     return {
       selected: [],
-      buslines: [
-        { number: 1, check: false },
-        { number: 2, check: false },
-        { number: 3, check: false },
-        { number: 4, check: false },
-        { number: 5, check: false },
-        { number: 6, check: false },
-        { number: 7, check: false },
-        { number: 8, check: false },
-        { number: 9, check: false },
-        { number: 20, check: false },
-        { number: 24, check: false },
-        { number: 55, check: false },
-        { number: 34, check: false }
-      ]
+      map: null,
+      dialog: false,
+      stationName: null,
+      stationId: null,
+      show: false,
+      markerCluster: null,
+      position: { longitude: NaN, latitude: NaN }
     };
+  },
+  computed: {
+    ...mapGetters(["stations", "currentStation"])
+  },
+  watch: {
+    currentStation() {
+      this.openBusStop(this.currentStation.name, this.currentStation.id);
+    }
+  },
+  mounted() {
+    this.map = new window.google.maps.Map(this.$refs["map"], {
+      center: { lat: 51.202709, lng: 16.15371 },
+      zoom: 14,
+      disableDefaultUI: true,
+      styles: [
+        {
+          featureType: "poi",
+          elementType: "labels",
+          stylers: [{ visibility: "off" }]
+        }
+      ]
+    });
+    this.$mapService.getBuslines();
+    navigator.geolocation.watchPosition(position => {
+      this.position = position.coords;
+    });
+  },
+
+  methods: {
+    changeBusStopProps(stationName, stationId) {
+      this.stationName = stationName;
+      this.stationId = stationId;
+    },
+    openBusStop(stationName, stationId) {
+      this.changeBusStopProps(stationName, stationId);
+      this.dialog = !this.dialog;
+    },
+    async getMap(callback) {
+      await this.map;
+      callback(this.map);
+    }
+  },
+  created() {
+    this.$mapService.getStations();
   }
 };
 </script>

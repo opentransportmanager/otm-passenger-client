@@ -7,8 +7,12 @@ import axios from "axios";
 import { ValidationProvider, setInteractionMode } from "vee-validate";
 import "./components/validationRules";
 import authService from "./services/authService";
+import subscriptionService from "./services/subscriptionService";
+import mapService from "./services/mapService";
 
 Vue.prototype.$authService = authService;
+Vue.prototype.$subscriptionService = subscriptionService;
+Vue.prototype.$mapService = mapService;
 
 Vue.component("ValidationProvider", ValidationProvider);
 setInteractionMode("eager");
@@ -21,11 +25,6 @@ new Vue({
   store,
   vuetify,
   created() {
-    const userDetails = localStorage.getItem("user");
-    if (userDetails) {
-      const userData = JSON.parse(userDetails);
-      this.$store.commit("setUserData", userData);
-    }
     axios.interceptors.response.use(
       response => response,
       error => {
