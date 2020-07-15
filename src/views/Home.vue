@@ -119,8 +119,21 @@ export default {
         paths.forEach(path => {
           this.$mapService
             .getMovingBusesByPathId(path.id)
-            .then(response => {
-              this.displayedBuses = response.data;
+            .then(({ data }) => {
+              if (
+                this.displayedBuses.find(
+                  bus => bus.course.id === data[0].course.id
+                ) !== undefined
+              ) {
+                this.displayedBuses[
+                  this.displayedBuses.findIndex(
+                    bus => bus.course.id === data[0].course.id
+                  )
+                ] = data[0];
+                this.$forceUpdate();
+              } else {
+                this.displayedBuses = this.displayedBuses.concat(data);
+              }
             })
             .catch(() => {});
         });
