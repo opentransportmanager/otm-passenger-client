@@ -27,7 +27,7 @@
     <v-btn top right absolute @click="show = !show" style="z-index: 3" icon>
       <v-icon x-large color="dark">mdi-bus-marker</v-icon>
     </v-btn>
-    <buslines-card :show="show" />
+    <buslines-card :show="show" @sendPath="drawRoute" @sendErase="eraseRoute" />
   </v-container>
 </template>
 
@@ -51,7 +51,10 @@ export default {
       stationId: null,
       show: false,
       markerCluster: null,
-      position: { longitude: NaN, latitude: NaN }
+      position: { longitude: NaN, latitude: NaN },
+
+      directionsService: new window.google.maps.DirectionsService(),
+      directionsDisplay: new window.google.maps.DirectionsRenderer()
     };
   },
   computed: {
@@ -79,9 +82,23 @@ export default {
     navigator.geolocation.watchPosition(position => {
       this.position = position.coords;
     });
+    this.directionsDisplay.setMap(this.map);
   },
-
   methods: {
+    drawRoute(pathId) {
+      this.$mapService.getPathToDraw(pathId).then(response => {
+        this.$mapService.drawRoute(
+          this.directionsService,
+          this.directionsDisplay,
+          response.startStation,
+          response.endStation,
+          response.waypoints
+        );
+      });
+    },
+    eraseRoute() {
+      this.directionsDisplay.setDirections({ routes: [] });
+    },
     changeBusStopProps(stationName, stationId) {
       this.stationName = stationName;
       this.stationId = stationId;

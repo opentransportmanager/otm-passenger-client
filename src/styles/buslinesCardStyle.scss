@@ -5,3 +5,11 @@
   top: 0;
 }
 
+.buslineButton {
+  background-color: #FFBF69 !important;
+
+  &.activeButton {
+    background-color: #EF6C00 !important;
+  }
+}
+

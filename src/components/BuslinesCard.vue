@@ -4,7 +4,7 @@
       style="z-index: 3; position: absolute"
       v-if="show"
       elevation="0"
-      class="col-8 col-sm-7 col-md-6 col-lg-4 pa-0 pb-2 transparent buslineCard"
+      class="col-8 col-sm-7 col-md-6 col-lg-4 pa-0 pb-2 transparent buslineCard "
     >
       <v-container>
         <v-row no-gutters v-if="!isLogged">
@@ -13,8 +13,11 @@
             x-small
             v-for="busline in buslines"
             :key="busline.number"
-            color="#FFBF69"
-            class="ma-1 ma-sm-2"
+            :class="[
+              { activeButton: currentBuslineDisplaying === busline },
+              'buslineButton ma-1 ma-sm-2'
+            ]"
+            @click="showPath(busline)"
             >{{ busline.number }}
           </v-btn>
         </v-row>
@@ -30,8 +33,11 @@
             x-small
             v-for="busline in subscribedBuslines"
             :key="busline.number"
-            color="#FFBF69"
-            class="ma-1 ma-sm-2"
+            :class="[
+              { activeButton: currentBuslineDisplaying === busline },
+              'buslineButton ma-1 ma-sm-2'
+            ]"
+            @click="showPath(busline)"
             >{{ busline.number }}
           </v-btn>
         </v-row>
@@ -52,8 +58,11 @@
             x-small
             v-for="busline in unsubscribedBuslines"
             :key="busline.number"
-            color="#FFBF69"
-            class="ma-1 ma-sm-2"
+            :class="[
+              { activeButton: currentBuslineDisplaying === busline },
+              'buslineButton ma-1 ma-sm-2'
+            ]"
+            @click="showPath(busline)"
             >{{ busline.number }}
           </v-btn>
         </v-row>
@@ -64,10 +73,16 @@
 
 <script>
 import { mapGetters } from "vuex";
+
 export default {
   name: "BuslinesCard",
   props: {
     show: { required: false }
+  },
+  data() {
+    return {
+      currentBuslineDisplaying: null
+    };
   },
   computed: {
     ...mapGetters([
@@ -76,6 +91,19 @@ export default {
       "unsubscribedBuslines",
       "isLogged"
     ])
+  },
+  methods: {
+    showPath(busline) {
+      if (this.currentBuslineDisplaying === busline) {
+        this.currentBuslineDisplaying = null;
+        this.$emit("sendErase");
+      } else if (busline.paths[0] !== undefined) {
+        this.currentBuslineDisplaying = busline;
+        this.$emit("sendPath", busline.paths[0].id);
+      } else {
+        console.log("The line has no path yet");
+      }
+    }
   }
 };
 </script>
