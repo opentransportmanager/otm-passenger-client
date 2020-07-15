@@ -11,7 +11,6 @@
       />
       <div class="col-12 map" ref="map">
         <map-marker
-          style="display: none"
           v-for="station in stations"
           :key="station.id"
           :lat="station.position.lat"
@@ -22,6 +21,12 @@
         ></map-marker>
         <user-location :lat="position.latitude" :lng="position.longitude">
         </user-location>
+        <bus-marker
+          v-for="(bus, index) in displayedBuses"
+          :key="'bus' + index"
+          :lat="bus.currentPosition.lat"
+          :lng="bus.currentPosition.lng"
+        ></bus-marker>
       </div>
     </v-row>
     <v-btn top right absolute @click="show = !show" style="z-index: 3" icon>
@@ -37,10 +42,11 @@ import MapMarker from "../components/MapMarker";
 import UserLocation from "../components/UserLocation";
 import BuslinesCard from "../components/BuslinesCard";
 import { mapGetters } from "vuex";
+import BusMarker from "../components/BusMarker";
 
 export default {
   name: "Home",
-  components: { BuslinesCard, UserLocation, MapMarker, BusStopInfo },
+  components: { BusMarker, BuslinesCard, UserLocation, MapMarker, BusStopInfo },
 
   data() {
     return {
@@ -54,7 +60,10 @@ export default {
       position: { longitude: NaN, latitude: NaN },
 
       directionsService: new window.google.maps.DirectionsService(),
-      directionsDisplay: new window.google.maps.DirectionsRenderer()
+      directionsDisplay: new window.google.maps.DirectionsRenderer(),
+
+      displayedBuses: [],
+      interval: null
     };
   },
   computed: {
@@ -63,6 +72,9 @@ export default {
   watch: {
     currentStation() {
       this.openBusStop(this.currentStation.name, this.currentStation.id);
+    },
+    show() {
+      this.showMovingBuses(this.show);
     }
   },
   mounted() {
@@ -85,6 +97,18 @@ export default {
     this.directionsDisplay.setMap(this.map);
   },
   methods: {
+    showMovingBuses(isDisplaying) {
+      if (isDisplaying) {
+        this.interval = setInterval(() => {
+          this.$mapService.getMovingBuses().then(response => {
+            this.displayedBuses = response.data;
+          });
+        }, 100);
+      } else {
+        clearInterval(this.interval);
+        this.displayedBuses = [];
+      }
+    },
     drawRoute(pathId) {
       this.$mapService.getPathToDraw(pathId).then(response => {
         this.$mapService.drawRoute(

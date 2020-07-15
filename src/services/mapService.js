@@ -81,5 +81,8 @@ export default {
         }
       }
     );
+  },
+  getMovingBuses() {
+    return axios.get("https://localhost:5001/states");
   }
 };
