@@ -69,7 +69,7 @@ export default {
         waypoints: waypoints,
         travelMode: "WALKING"
       },
-      function(response, status) {
+      (response, status) => {
         if (status === "OK") {
           directionsDisplay.setOptions({ suppressMarkers: true });
           directionsDisplay.setDirections(response);
