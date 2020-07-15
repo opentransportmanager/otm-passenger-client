@@ -32,7 +32,12 @@
     <v-btn top right absolute @click="show = !show" style="z-index: 3" icon>
       <v-icon x-large color="dark">mdi-bus-marker</v-icon>
     </v-btn>
-    <buslines-card :show="show" @sendPath="drawRoute" @sendErase="eraseRoute" />
+    <buslines-card
+      :show="show"
+      @sendPath="drawRoute"
+      @sendPathsForDisplayingBus="displayBus"
+      @sendErase="eraseRouteAndBuses"
+    />
   </v-container>
 </template>
 
@@ -103,11 +108,28 @@ export default {
           this.$mapService.getMovingBuses().then(response => {
             this.displayedBuses = response.data;
           });
-        }, 100);
+        }, 1000);
       } else {
-        clearInterval(this.interval);
-        this.displayedBuses = [];
+        this.eraseDisplayingBuses();
       }
+    },
+    displayBus(pathId) {
+      this.eraseDisplayingBuses();
+
+      this.interval = setInterval(() => {
+        this.$mapService
+          .getMovingBusesByPathId(pathId)
+          .then(response => {
+            this.displayedBuses = response.data;
+          })
+          .catch(() => {
+            console.log("no active buses");
+          });
+      }, 1000);
+    },
+    eraseDisplayingBuses() {
+      clearInterval(this.interval);
+      this.displayedBuses = [];
     },
     drawRoute(pathId) {
       this.$mapService.getPathToDraw(pathId).then(response => {
@@ -120,8 +142,9 @@ export default {
         );
       });
     },
-    eraseRoute() {
+    eraseRouteAndBuses() {
       this.directionsDisplay.setDirections({ routes: [] });
+      this.eraseDisplayingBuses();
     },
     changeBusStopProps(stationName, stationId) {
       this.stationName = stationName;

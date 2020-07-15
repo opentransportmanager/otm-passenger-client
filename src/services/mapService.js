@@ -84,5 +84,8 @@ export default {
   },
   getMovingBuses() {
     return axios.get("https://localhost:5001/states");
+  },
+  getMovingBusesByPathId(pathId) {
+    return axios.get(`https://localhost:5001/states/${pathId}`);
   }
 };

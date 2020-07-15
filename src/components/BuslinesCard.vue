@@ -100,6 +100,7 @@ export default {
       } else if (busline.paths[0] !== undefined) {
         this.currentBuslineDisplaying = busline;
         this.$emit("sendPath", busline.paths[0].id);
+        this.$emit("sendPathsForDisplayingBus", busline.paths[0].id);
       } else {
         console.log("The line has no path yet");
       }
