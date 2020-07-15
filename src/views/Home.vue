@@ -35,7 +35,7 @@
     <buslines-card
       :show="show"
       @sendPath="drawRoute"
-      @sendPathsForDisplayingBus="displayBus"
+      @sendPathsForDisplayingLine="displayLine"
       @sendErase="eraseRouteAndBuses"
     />
   </v-container>
@@ -113,18 +113,17 @@ export default {
         this.eraseDisplayingBuses();
       }
     },
-    displayBus(pathId) {
+    displayLine(paths) {
       this.eraseDisplayingBuses();
-
       this.interval = setInterval(() => {
-        this.$mapService
-          .getMovingBusesByPathId(pathId)
-          .then(response => {
-            this.displayedBuses = response.data;
-          })
-          .catch(() => {
-            console.log("no active buses");
-          });
+        paths.forEach(path => {
+          this.$mapService
+            .getMovingBusesByPathId(path.id)
+            .then(response => {
+              this.displayedBuses = response.data;
+            })
+            .catch(() => {});
+        });
       }, 1000);
     },
     eraseDisplayingBuses() {

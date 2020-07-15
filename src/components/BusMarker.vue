@@ -1,4 +1,5 @@
 <script>
+import image from "../img/bus.png";
 export default {
   props: {
     lat: { type: Number, required: true },
@@ -18,7 +19,8 @@ export default {
     this.$parent.getMap(async map => {
       this.marker = new window.google.maps.Marker({
         position: { lat: this.lat, lng: this.lng },
-        map: map
+        map: map,
+        icon: image
       });
     });
   },
